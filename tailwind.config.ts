@@ -22,6 +22,9 @@ const config: Config = {
         secondary: ["var(--font-secondary)"],
         english: ["var(--font-english)"],
       },
+      boxShadow: {
+        card: "var(--card-shadow)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

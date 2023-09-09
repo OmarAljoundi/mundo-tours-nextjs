@@ -25,24 +25,23 @@ const CountryDropdown: FC<{
 }> = ({ onChange, search, setSearch }) => {
   const [selected, setSelected] = useState<
     { countryCode: string; label: string }[]
-  >(() => {
-    if (typeof window !== "undefined") {
-      const query = qs.parseUrl(window.location.href, {
-        arrayFormat: "comma",
-        decode: true,
-      }).query;
+  >([]);
 
-      if (typeof query.country == "string") query.country = [query.country];
-      if (query.country && query.country.length > 0) {
-        const labelSet = new Set(query.country);
-        const filteredObjects = europeanCountries.filter((obj) =>
-          labelSet.has(obj.label)
-        );
-        return filteredObjects;
-      }
+  useEffect(() => {
+    const query = qs.parseUrl(window.location.href, {
+      arrayFormat: "comma",
+      decode: true,
+    }).query;
+
+    if (typeof query.country == "string") query.country = [query.country];
+    if (query.country && query.country.length > 0) {
+      const labelSet = new Set(query.country);
+      const filteredObjects = europeanCountries.filter((obj) =>
+        labelSet.has(obj.label)
+      );
+      setSelected(filteredObjects);
     }
-    return [];
-  });
+  }, []);
 
   useEffect(() => {
     setSearch({
@@ -85,7 +84,7 @@ const CountryDropdown: FC<{
                       <Badge
                         variant="secondary"
                         key={option.label}
-                        className="rounded-sm px-1 font-normal "
+                        className="rounded-sm px-1 font-normal  text-[10px] "
                       >
                         {option.label}
                       </Badge>

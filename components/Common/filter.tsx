@@ -12,12 +12,10 @@ import DurationDropdown from "./duration-dropdown";
 import DestinationDropdown from "./destination-dropdown";
 import PriceDropdown from "./price-dropdown";
 import SearchFilterLoading from "../Loading/search-filter-loading";
-import { SearchQuery, eFilterOperator } from "@/interface/Search";
-import { ILocationResponse } from "@/interface/Response";
-import { http } from "@/service/httpService";
 import Tabs from "../TourListing/tabs";
 import { usePathname, useRouter } from "next/navigation";
 import TypeDropdown from "./type-dropdown";
+import SortDropdown from "./sort-dropdown";
 
 type FilterOptions = {
   onChange: boolean;
@@ -69,6 +67,20 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
           type: query.type as string[],
         });
       }
+      if (query.maxprice) {
+        setSearch({
+          ...search,
+          maxprice: query.maxprice as string,
+        });
+      }
+      if (query.sortMemebr && query.sortOrder) {
+        setSearch({
+          ...search,
+          sortMemebr: query.sortMemebr as string,
+          sortOrder: Number(query.sortOrder),
+        });
+      }
+
       setMount(true);
     }
   }, [mount]);
@@ -84,6 +96,8 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
         country: search?.country,
         tab: search?.tab,
         type: search?.type,
+        sortMemebr: search?.sortMemebr,
+        sortOrder: search?.sortOrder,
       };
 
       const url = qs.stringifyUrl(
@@ -146,7 +160,7 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
     <div>
       <div
         className={cn(
-          "p-3 sm:p-4 lg:py-6 lg:px-8 bg-white  shadow-lg  grid gap-2 grid-cols-1 md:grid-cols-2",
+          "p-3 sm:p-4 lg:py-6 lg:px-8 bg-white  shadow-lg  grid gap-2  grid-cols-2",
           onChange ? "lg:grid-cols-6" : "lg:grid-cols-5"
         )}
       >
@@ -170,12 +184,23 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
           setSearch={setSearch}
         />
 
-        <PriceDropdown />
+        <PriceDropdown
+          onChange={onChange}
+          search={search}
+          setSearch={setSearch}
+        />
         <DurationDropdown
           onChange={onChange}
           search={search}
           setSearch={setSearch}
         />
+        {enableTabs && (
+          <SortDropdown
+            onChange={onChange}
+            search={search}
+            setSearch={setSearch}
+          />
+        )}
 
         {!onChange && (
           <section

@@ -25,6 +25,7 @@ const Tour = () => {
   if (isLoading || !response?.tour) return null;
 
   const {
+    id,
     hotels,
     imageUrl,
     name,
@@ -33,6 +34,7 @@ const Tour = () => {
     startDay,
     tourCountries,
     tourType,
+    price,
   } = response.tour;
 
   return (
@@ -42,10 +44,17 @@ const Tour = () => {
           <div className="flex justify-between flex-wrap items-start ">
             <div className="grid items-start content-center">
               <div className="mb-4">
-                <div className="flex items-center mb-1">
-                  <h4 className="text-gray-700  dark:text-gray-100 mr-2 lg:text-3xl text-2xl font-primary font-bold">
+                <div className="flex items-center  gap-x-5 justify-between flex-wrap mb-3">
+                  <h1 className="text-gray-700  dark:text-gray-100 mr-2 lg:text-3xl text-2xl font-primary font-bold">
                     {name}
-                  </h4>
+                  </h1>
+                  <span className="text-primary text-xl font-medium mr-1">
+                    {price} ر.ع
+                    <span className="text-base text-neutral-700">
+                      {" "}
+                      / للشخص في الغرفة المزدوجة{" "}
+                    </span>
+                  </span>
                 </div>
                 <div className="flex items-center text-primary mt-2">
                   <svg
@@ -77,7 +86,7 @@ const Tour = () => {
                 </div>
                 <div className="flex items-center lg:justify-start gap-2 mt-4">
                   <Button size={"sm"}>مشاركة البرنامج</Button>
-                  <ContactForm />
+                  <ContactForm tourId={id!} />
                 </div>
               </div>
             </div>

@@ -2,13 +2,14 @@ import { ITour } from "@/interface/Tour";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import BlurImage from "./blur-image";
 
 const TourCard: React.FC<{ tour: ITour }> = ({ tour }) => {
   return (
     <div className="bg-white shadow-xl rounded-2xl p-2 ">
       <div className="rounded-2xl relative group">
         <div className="property-card__img relative">
-          <Image
+          <BlurImage
             width={1000}
             height={500}
             quality={100}

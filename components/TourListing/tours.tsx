@@ -8,6 +8,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useInView } from "react-intersection-observer";
 import React from "react";
 import { ITour } from "@/interface/Tour";
+import TourCardLoading from "../Common/tour-card-loading";
 
 const Tours = () => {
   const searchParams = useSearchParams();
@@ -60,6 +61,9 @@ const Tours = () => {
     data: response,
     isSuccess,
     hasNextPage,
+    isLoading,
+    isFetchingNextPage,
+
     fetchNextPage,
   } = useInfiniteQuery(
     [
@@ -103,6 +107,9 @@ const Tours = () => {
       fetchNextPage();
     }
   }, [inView, fetchNextPage, hasNextPage]);
+
+  console.log("is loaind", isLoading);
+
   return (
     <div>
       <div className="grid grid-cols-12 gap-x-2 gap-y-4 lg:gap-8">
@@ -115,6 +122,8 @@ const Tours = () => {
               return <TourContent key={tour.id} {...tour} />;
             })
           )}
+        {(isLoading || isFetchingNextPage) &&
+          Array.from(new Array(3)).map((i) => <TourCardLoading key={i} />)}
       </div>
     </div>
   );

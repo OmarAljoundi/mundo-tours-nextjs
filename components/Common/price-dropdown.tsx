@@ -1,12 +1,67 @@
 "use client";
-import { useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { Banknote } from "lucide-react";
 import { Button } from "../ui/button";
+import qs from "query-string";
+import useDebounce from "@/hooks/useDebounce";
+import { usePathname, useRouter } from "next/navigation";
+import { QueryString } from "@/lib/utils";
 
-export default function PriceDropdown() {
-  const [value, setValue] = useState(40);
+const PriceDropdown: FC<{
+  onChange: boolean;
+  setSearch: (QueryString: QueryString) => void;
+  search: QueryString;
+}> = ({ onChange, search, setSearch }) => {
+  const pathname = usePathname();
+  const [value, setValue] = useState<number>(1000);
+  const debouncedValue = useDebounce<number>(value, 750);
+  const router = useRouter();
+
+  useEffect(() => {
+    const query = qs.parseUrl(window.location.href, {
+      arrayFormat: "comma",
+      decode: true,
+    }).query;
+
+    if (query.maxprice) {
+      setValue(Number(query.maxprice));
+    }
+  }, []);
+
+  useEffect(() => {
+    const query = {
+      ...qs.parseUrl(window.location.href, {
+        arrayFormat: "comma",
+        decode: true,
+      }).query,
+      maxprice: value,
+    };
+
+    const url = qs.stringifyUrl(
+      {
+        url: pathname,
+        query,
+      },
+      {
+        skipNull: true,
+        skipEmptyString: true,
+        arrayFormat: "comma",
+        encode: true,
+      }
+    );
+
+    if (onChange) {
+      router.push(url);
+    } else {
+      //@ts-ignore
+      setSearch({
+        ...search,
+        maxprice: debouncedValue,
+      });
+    }
+  }, [debouncedValue, router]);
 
   return (
     <Button
@@ -14,7 +69,7 @@ export default function PriceDropdown() {
       size="sm"
       className="text-left w-full cursor-pointer relative block"
     >
-      <div className="px-6 focus:shadow-xl  gap-3 items-center sm:text-sm ">
+      <div className="sm:px-6 focus:shadow-xl  gap-3 items-center sm:text-sm ">
         <div className="w-full py-1 flex items-center gap-2">
           <span className="flex items-center gap-1">
             <Banknote />
@@ -28,7 +83,7 @@ export default function PriceDropdown() {
               backgroundColor: "var(--primary)",
               borderColor: "var(--primary)",
             }}
-            max={500}
+            max={1000}
             trackStyle={{ backgroundColor: "var(--primary)" }}
             value={value}
             onChange={(value) => setValue(value as number)}
@@ -37,4 +92,6 @@ export default function PriceDropdown() {
       </div>
     </Button>
   );
-}
+};
+
+export default PriceDropdown;

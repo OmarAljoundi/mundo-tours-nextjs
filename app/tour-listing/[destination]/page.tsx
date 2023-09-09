@@ -1,4 +1,3 @@
-import ClientProvider from "@/components/Common/client-provider";
 import Tours from "@/components/TourListing/tours";
 
 const DestinationPage = () => {

@@ -6,6 +6,7 @@ import Footer from "@/components/Layout/footer";
 import Header from "@/components/Layout/header";
 import ClientProvider from "@/components/Common/client-provider";
 import { getContentData } from "@/lib/fetchers";
+import { Notifications } from "@/components/ui/notification";
 
 export async function generateMetadata() {
   const data = await getContentData();
@@ -27,12 +28,14 @@ export default async function RootLayout({
       <body
         className={cn(alfont.variable, englishFont.variable, shekari.variable)}
       >
-        <ClientProvider content={data.content}>
-          <ToolBar />
-          <Header />
-          {children}
-          <Footer />
-        </ClientProvider>
+        <Notifications position={"topRight"}>
+          <ClientProvider content={data.content}>
+            <ToolBar />
+            <Header />
+            {children}
+            <Footer />
+          </ClientProvider>
+        </Notifications>
       </body>
     </html>
   );

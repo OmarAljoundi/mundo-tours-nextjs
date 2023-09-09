@@ -1,3 +1,4 @@
+import { Order } from "@/interface/Search";
 import { ITourType } from "@/interface/Tour";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -46,6 +47,8 @@ export type QueryString = {
   location:number | null 
   tab:string | null
   type:string[]
+  sortMemebr?:string
+  sortOrder?:number
 }
 export const queryString:QueryString = {
   country:[],
@@ -53,6 +56,7 @@ export const queryString:QueryString = {
   maxprice:null,
   location:null,
   type:[],
+  
   tab:null
 
 }
@@ -61,4 +65,27 @@ export const daysFilter = [
    { label: "من 8 إلى 10 أيام", value: "t2",period:[8,9,10]  },
     { label: "من 11 إلى 20 يوم", value: "t3",period:[11,12,13,14,15,16,17,18,19,20]  },
  
+]
+
+export const orderFilter =[
+  {
+    label:"الأقل سعراَ",
+    value:"Price",
+    order:Order.ASC
+  },
+   {
+    label:"الأعلى سعراً",
+    value:"Price",
+    order:Order.DESC
+  },
+   {
+    label:"الأطول مدة",
+    value:"NumberOfDays",
+    order:Order.DESC
+  },
+    {
+    label:"الأقل مدة",
+    value:"NumberOfDays",
+    order:Order.ASC
+  },
 ]

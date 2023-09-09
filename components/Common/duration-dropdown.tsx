@@ -25,28 +25,26 @@ const DurationDropdown: FC<{
 }> = ({ onChange, search, setSearch }) => {
   const pathname = usePathname();
   const [selected, setSelected] = useState<{ value: string; label: string }[]>(
-    () => {
-      if (typeof window !== "undefined") {
-        const query = qs.parseUrl(window.location.href, {
-          arrayFormat: "comma",
-          decode: true,
-        }).query;
-
-        if (typeof query.days == "string") query.days = [query.days];
-        if (query.days && query.days.length > 0) {
-          const labelSet = new Set(query.days);
-          const filteredObjects = daysFilter.filter((obj) =>
-            labelSet.has(obj.value)
-          );
-          return filteredObjects;
-        }
-      }
-      return [];
-    }
+    []
   );
 
   const router = useRouter();
 
+  useEffect(() => {
+    const query = qs.parseUrl(window.location.href, {
+      arrayFormat: "comma",
+      decode: true,
+    }).query;
+
+    if (typeof query.days == "string") query.days = [query.days];
+    if (query.days && query.days.length > 0) {
+      const labelSet = new Set(query.days);
+      const filteredObjects = daysFilter.filter((obj) =>
+        labelSet.has(obj.value)
+      );
+      setSelected(filteredObjects);
+    }
+  }, []);
   useEffect(() => {
     setSearch({
       ...search,
@@ -69,7 +67,7 @@ const DurationDropdown: FC<{
               <Separator orientation="vertical" className="mx-2 h-4" />
               <Badge
                 variant="secondary"
-                className="rounded-sm px-1 font-normal lg:hidden"
+                className="rounded-sm px-1 font-normal lg:hidden "
               >
                 {selected.length}
               </Badge>
@@ -88,7 +86,7 @@ const DurationDropdown: FC<{
                       <Badge
                         variant="secondary"
                         key={option.label}
-                        className="rounded-sm px-1 font-normal"
+                        className="rounded-sm px-1 font-normal  text-[10px]"
                       >
                         {option.label}
                       </Badge>

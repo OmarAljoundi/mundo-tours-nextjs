@@ -17,7 +17,12 @@ const Category = () => {
         {response?.map((i) => (
           <div key={i.id} className="w-full">
             <div className="grid justify-items-center p-4 border-2 border-dashed border-primary rounded-2xl gap-4 shadow-xl">
-              <Image src={i?.image ?? ""} width={50} height={50} alt={i.type} />
+              <Image
+                src={`/imgs/${i.type}.png`}
+                width={50}
+                height={50}
+                alt={i.type}
+              />
               <h4 className="font-primary text-xl">{i.type}</h4>
               <Button>المزيد</Button>
             </div>

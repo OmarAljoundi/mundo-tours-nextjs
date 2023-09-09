@@ -26,22 +26,21 @@ const TypeDropdown: FC<{
   onChange: boolean;
 }> = ({ onChange, search, setSearch, types }) => {
   const pathname = usePathname();
-  const [selected, setSelected] = useState<ITourType[]>(() => {
-    if (typeof window !== "undefined") {
-      const query = qs.parseUrl(window.location.href, {
-        arrayFormat: "comma",
-        decode: true,
-      }).query;
+  const [selected, setSelected] = useState<ITourType[]>([]);
 
-      if (typeof query.type == "string") query.type = [query.type];
-      if (query.type && query.type.length > 0) {
-        const labelSet = new Set(query.type);
-        const filteredObjects = types.filter((obj) => labelSet.has(obj.type));
-        return filteredObjects;
-      }
+  useEffect(() => {
+    const query = qs.parseUrl(window.location.href, {
+      arrayFormat: "comma",
+      decode: true,
+    }).query;
+
+    if (typeof query.type == "string") query.type = [query.type];
+    if (query.type && query.type.length > 0) {
+      const labelSet = new Set(query.type);
+      const filteredObjects = types.filter((obj) => labelSet.has(obj.type));
+      setSelected(filteredObjects);
     }
-    return [];
-  });
+  }, []);
 
   useEffect(() => {
     setSearch({

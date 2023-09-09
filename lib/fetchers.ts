@@ -1,5 +1,6 @@
 import {
   IContentResponse,
+  ICustomerResponse,
   ILocationResponse,
   ILocationToursResponse,
   ITourResponse,
@@ -11,6 +12,7 @@ import { ITourType } from "@/interface/Tour";
 import { BaseResponse } from "@/interface/BaseResponse";
 import { ILocationTours } from "@/interface/Location";
 import { IContent } from "@/interface/Content";
+import { ICustomer } from "@/interface/Customer";
 
 type TourSearch = {
   country?: string;
@@ -156,5 +158,12 @@ export async function getLocationTours(locationId: number) {
 }
 export async function getContentData() {
   const result = await http<IContentResponse>("Content/Read").get();
+  return result;
+}
+
+export async function submitForm(data: ICustomer) {
+  const result = await http<ICustomerResponse>("Customer/SubmitForm").post(
+    data
+  );
   return result;
 }

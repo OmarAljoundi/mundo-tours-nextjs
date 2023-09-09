@@ -25,67 +25,23 @@ const Footer = () => {
           الاختيار للمسافر لمدة و تاريخ و طريقة الرحلة.
         </p>
 
-        <ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
-          <li>
-            <a
-              className="text-gray-700 transition hover:text-gray-700/75"
-              href="/"
-            >
-              About
-            </a>
-          </li>
-
-          <li>
-            <a
-              className="text-gray-700 transition hover:text-gray-700/75"
-              href="/"
-            >
-              Careers
-            </a>
-          </li>
-
-          <li>
-            <a
-              className="text-gray-700 transition hover:text-gray-700/75"
-              href="/"
-            >
-              History
-            </a>
-          </li>
-
-          <li>
-            <a
-              className="text-gray-700 transition hover:text-gray-700/75"
-              href="/"
-            >
-              Services
-            </a>
-          </li>
-
-          <li>
-            <a
-              className="text-gray-700 transition hover:text-gray-700/75"
-              href="/"
-            >
-              Projects
-            </a>
-          </li>
-
-          <li>
-            <a
-              className="text-gray-700 transition hover:text-gray-700/75"
-              href="/"
-            >
-              Blog
-            </a>
-          </li>
-        </ul>
-
         <ul className="mt-12 flex justify-center gap-6 md:gap-8">
           <div className="contact-info flex gap-4 ">
-            <AiOutlineWhatsApp className="text-white text-2xl" />
-            <AiOutlineInstagram className="text-white text-2xl" />
-            <HiOutlineMapPin className="text-white text-2xl" />
+            <a
+              href="https://api.whatsapp.com/send/?phone=%2B96895929251&text&type=phone_number&app_absent=0"
+              target="_blank"
+            >
+              <AiOutlineWhatsApp className="text-primary text-3xl" />
+            </a>
+            <a
+              href="https://www.google.com/maps/place/Mundo+Tours+%D9%85%D9%88%D9%86%D8%AF%D9%88+%D9%84%D9%84%D8%B3%D9%8A%D8%A7%D8%AD%D8%A9%E2%80%AD/@23.6012323,58.3711332,16z/data=!4m6!3m5!1s0x3e8e01dc526316a5:0xe8acf9b4eea6c8ce!8m2!3d23.6012665!4d58.3708565!16s%2Fg%2F11fnw0jpzp?entry=ttu"
+              target="_blank"
+            >
+              <HiOutlineMapPin className="text-primary text-3xl" />
+            </a>
+            <a href="https://www.instagram.com/Mundooman/" target="_blank">
+              <AiOutlineInstagram className="text-primary text-3xl" />
+            </a>
           </div>
         </ul>
       </div>

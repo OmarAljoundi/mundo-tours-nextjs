@@ -1,6 +1,6 @@
 import { FileType } from "./Location";
 export interface ITour {
-  id?: string;
+  id: number;
   name: string | null;
   code: string | null;
   startDay: string | null;
