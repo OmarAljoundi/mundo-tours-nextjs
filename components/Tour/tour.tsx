@@ -70,7 +70,7 @@ const Tour = () => {
                     ></path>
                   </svg>
                   <p className="text-lg font-primary  mr-2">
-                    {tourCountries?.map((i) => i.label).join(" | ")}
+                    {tourCountries?.map((i: any) => i.label).join(" | ")}
                   </p>
                 </div>
                 <div className="flex flex-wrap mt-4">
