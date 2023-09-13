@@ -3,6 +3,7 @@ const nextConfig = {
   images: {
     domains: ["mundo-tours.s3.eu-central-1.amazonaws.com", "flagcdn.com"],
   },
+  staticPageGenerationTimeout: 120,
 };
 
 module.exports = nextConfig;
