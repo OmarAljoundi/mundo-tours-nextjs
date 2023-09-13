@@ -105,7 +105,7 @@ export async function getTourBySlug(slug: string) {
     FilterOperator: eFilterOperator.EqualsTo,
     MemberName: "Name",
   });
-  const result = await http<ITourResponse>("Tour/SearchGeneral").post(_SQ);
+  const result = await http<ITourResponse>("Tour/SearchBusiness").post(_SQ);
 
   return result;
 }
