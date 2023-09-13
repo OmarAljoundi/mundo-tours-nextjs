@@ -2,6 +2,10 @@ export function http<T>(endPoint: string) {
   return {
     post: async (data: any = "") => {
       try {
+        console.log(
+          "process.env.NEXT_PUBLIC_API_URL",
+          process.env.NEXT_PUBLIC_API_URL
+        );
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}${endPoint}`,
           {
@@ -28,6 +32,10 @@ export function http<T>(endPoint: string) {
     },
     get: async () => {
       try {
+        console.log(
+          "process.env.NEXT_PUBLIC_API_URL",
+          process.env.NEXT_PUBLIC_API_URL
+        );
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}${endPoint}`,
           {
