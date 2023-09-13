@@ -1,3 +1,4 @@
+export const revalidate = 0;
 import Tour from "@/components/Tour/tour";
 import { ITourResponse } from "@/interface/Response";
 import { SearchQuery } from "@/interface/Search";

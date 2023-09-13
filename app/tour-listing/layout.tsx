@@ -1,3 +1,4 @@
+export const revalidate = 0;
 import BreadCrumb from "@/components/TourListing/bread-crumb";
 import ClientProvider from "@/components/Common/client-provider";
 import Filter from "@/components/Common/filter";

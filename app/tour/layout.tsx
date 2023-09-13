@@ -1,3 +1,4 @@
+export const revalidate = 0;
 import HowWorks from "@/components/Home/how-works";
 import BreadCrumb from "@/components/Tour/bread-crumb";
 

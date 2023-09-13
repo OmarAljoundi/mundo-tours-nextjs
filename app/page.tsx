@@ -1,3 +1,4 @@
+export const revalidate = 0;
 import SectionProvider from "@/components/Common/section-provider";
 import BestTours from "@/components/Home/best-tours";
 import Category from "@/components/Home/category";

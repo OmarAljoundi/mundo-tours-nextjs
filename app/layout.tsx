@@ -1,3 +1,4 @@
+export const revalidate = 0;
 import "./globals.css";
 import { alfont, englishFont, shekari } from "./fonts";
 import ToolBar from "@/components/Layout/tool-bar";
