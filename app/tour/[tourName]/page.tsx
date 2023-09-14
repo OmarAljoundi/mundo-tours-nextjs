@@ -12,19 +12,19 @@ type Params = {
   };
 };
 
-export async function generateStaticParams() {
-  const _SQ: SearchQuery = {
-    FilterByOptions: [],
-    OrderByOptions: [],
-    PageIndex: 0,
-    PageSize: 0,
-  };
-  const result = await http<ITourResponse>("Tour/SearchBusiness").post(_SQ);
+// export async function generateStaticParams() {
+//   const _SQ: SearchQuery = {
+//     FilterByOptions: [],
+//     OrderByOptions: [],
+//     PageIndex: 0,
+//     PageSize: 0,
+//   };
+//   const result = await http<ITourResponse>("Tour/SearchBusiness").post(_SQ);
 
-  return result.tours.map((tour) => ({
-    slug: `${tour.name?.replaceAll(" ", "-")}`,
-  }));
-}
+//   return result.tours.map((tour) => ({
+//     slug: `${tour.name?.replaceAll(" ", "-")}`,
+//   }));
+// }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const slug = params.tourName;
