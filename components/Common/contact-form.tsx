@@ -19,10 +19,8 @@ import {
 import { useFormik } from "formik";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
-
+import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -32,13 +30,14 @@ import {
 } from "@/components/ui/popover";
 
 import { FC, useState } from "react";
-import { useQuery } from "react-query";
-import { getTours, submitForm } from "@/lib/fetchers";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { submitForm } from "@/lib/fetchers";
 import { ICustomer, eCustomerStatus } from "@/interface/Customer";
 import { useNotification } from "../ui/notification";
+import { submitEventForm } from "@/lib/gtm";
+import { usePathname } from "next/navigation";
 const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
   const [date, setDate] = useState<Date>();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
   const { error, success } = useNotification();
@@ -52,6 +51,7 @@ const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
     const result = await submitForm(data);
     if (result.success) {
       success("سنقوم بالتواصل معك قريباَ");
+      submitEventForm(pathname);
     } else {
       error("حدث خطأ ما.. الرجاء المحاولة مجدداً");
     }
