@@ -4,6 +4,9 @@ import { IContent } from "@/interface/Content";
 import { FC, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
+import TagManager from "react-gtm-module";
+import { GTM_ID } from "@/lib/gtm";
+
 const ClientProvider: FC<{ children: React.ReactNode; content: IContent }> = ({
   children,
   content,
