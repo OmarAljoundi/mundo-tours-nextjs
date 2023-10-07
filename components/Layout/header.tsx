@@ -8,7 +8,7 @@ export const MenuItems = [
     link: "/",
   },
   {
-    title: "الوجهات السياحية",
+    title: "جميع الرحلات",
     link: "/tour-listing",
   },
   {

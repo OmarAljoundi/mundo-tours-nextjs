@@ -96,7 +96,9 @@ const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
       open={open}
     >
       <DialogTrigger>
-        <Button size={"sm"}>طريقة الحجز</Button>
+        <Button size={"sm"} variant={"secondary"}>
+          طريقة الحجز
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className="text-right mb-4 mt-8">

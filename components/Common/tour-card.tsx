@@ -1,5 +1,4 @@
 import { ITour } from "@/interface/Tour";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import BlurImage from "./blur-image";
@@ -9,14 +8,16 @@ const TourCard: React.FC<{ tour: ITour }> = ({ tour }) => {
     <div className="bg-white shadow-xl rounded-2xl p-2 ">
       <div className="rounded-2xl relative group">
         <div className="property-card__img relative">
-          <BlurImage
-            width={1000}
-            height={500}
-            quality={100}
-            src={tour.imageUrl || ""}
-            alt="image"
-            className="rounded-2xl w-full h-[200px] lg:h-[300px]"
-          />
+          <Link href={`/tour/${tour.name?.replaceAll(" ", "-")}`}>
+            <BlurImage
+              width={1000}
+              height={400}
+              quality={100}
+              src={tour.imageUrl || ""}
+              alt="image"
+              className="rounded-2xl w-full h-[200px] lg:h-[260px]"
+            />
+          </Link>
           <div className="absolute top-2 right-2 bg-white w-auto px-4 h-11 sm:h-6 lg:h-11 rounded-full shadow-xl border-primary border-2">
             <div className="flex justify-center items-center h-full text-base sm:text-sm  lg:text-base font-primary">
               {tour.numberOfDays} يوم

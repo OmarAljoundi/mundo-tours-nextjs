@@ -11,7 +11,8 @@ import { getLocationTours } from "@/lib/fetchers";
 import { QueryString } from "@/lib/utils";
 import { useParams, useSearchParams } from "next/navigation";
 import { useQuery } from "react-query";
-
+import { Separator } from "../ui/separator";
+import { motion } from "framer-motion";
 const Tabs: React.FC<{
   setSearch: (search: QueryString) => void;
   search: QueryString;
@@ -50,26 +51,33 @@ const Tabs: React.FC<{
     return null;
 
   return (
-    <TabUi
-      defaultValue={
-        searchParams?.get("tab") ??
-        loactionsTours?.locationTours[0].tab.toString()
-      }
-      className="w-full mb-8 "
-      onValueChange={(e) => setSearch({ ...search, tab: e })}
-    >
-      <TabsList className="w-full shadow-xl bg-white gap-4 grid grid-cols-2 lg:grid-cols-4 h-full">
-        {loactionsTours?.locationTours?.map((item) => (
-          <TabsTrigger
-            value={item.tab.toString()}
-            key={item.id}
-            className="w-full data-[state=active]:bg-secondary data-[state=active]:text-white px-4 "
-          >
-            {item.title}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </TabUi>
+    <>
+      <Separator className="my-2" />
+      <h1 className="text-center text-7xl font-secondary text-secondary mb-5">
+        أختار نوع البرناج
+      </h1>
+
+      <TabUi
+        defaultValue={
+          searchParams?.get("tab") ??
+          loactionsTours?.locationTours[0].tab.toString()
+        }
+        className="w-full mb-8 "
+        onValueChange={(e) => setSearch({ ...search, tab: e })}
+      >
+        <TabsList className="w-full shadow-xl bg-white gap-4 grid grid-cols-2 lg:grid-cols-4 h-full">
+          {loactionsTours?.locationTours?.map((item) => (
+            <TabsTrigger
+              value={item.tab.toString()}
+              key={item.id}
+              className="w-full data-[state=active]:bg-secondary data-[state=active]:text-white px-4 "
+            >
+              {item.title}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </TabUi>
+    </>
   );
 };
 

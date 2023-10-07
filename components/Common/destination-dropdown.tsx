@@ -13,7 +13,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { Check, Plus } from "lucide-react";
+import { Check, Plus, X } from "lucide-react";
 import { QueryString, cn, daysFilter, europeanCountries } from "@/lib/utils";
 import { Separator } from "../ui/separator";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -52,9 +52,11 @@ const DestinationDropdown: FC<{
               <Separator orientation="vertical" className="mx-2 h-4" />
               <Badge
                 variant="secondary"
-                className="rounded-sm px-1 font-normal"
+                className="rounded-sm px-1 font-normal truncate"
+                onClick={() => router.push("/tour-listing")}
               >
                 {select.replaceAll("-", " ")}
+                <X className="border  rounded-lg w-4 h-4 mr-2 text-white bg-red-500/70" />
               </Badge>
             </>
           )}
@@ -89,19 +91,6 @@ const DestinationDropdown: FC<{
                 );
               })}
             </CommandGroup>
-            {destination && (
-              <>
-                <CommandSeparator />
-                <CommandGroup>
-                  <CommandItem
-                    className="justify-center text-center"
-                    onSelect={() => router.push("/tour-listing")}
-                  >
-                    حذف الفلتر
-                  </CommandItem>
-                </CommandGroup>
-              </>
-            )}
           </CommandList>
         </Command>
       </PopoverContent>

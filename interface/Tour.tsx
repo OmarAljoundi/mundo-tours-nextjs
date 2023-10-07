@@ -7,6 +7,7 @@ export interface ITour {
   additionalInfo: string | null;
   numberOfDays: number | null;
   price: number | null;
+  pricePerSingle: number | null;
   seoTitle: string | null;
   seoDescription: string | null;
   seoTag: string | null;

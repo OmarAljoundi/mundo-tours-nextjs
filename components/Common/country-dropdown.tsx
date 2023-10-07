@@ -1,7 +1,7 @@
 "use client";
 import { Fragment, useState, useEffect, FC } from "react";
 import { QueryString, cn, europeanCountries, queryString } from "@/lib/utils";
-import { Plus, Check } from "lucide-react";
+import { Plus, Check, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -66,16 +66,20 @@ const CountryDropdown: FC<{
               <Badge
                 variant="secondary"
                 className="rounded-sm px-1 font-normal lg:hidden"
+                onClick={() => setSelected([])}
               >
                 {selected.length}
+                <X className="border  rounded-lg w-4 h-4 mr-2 text-white bg-red-500/70" />
               </Badge>
               <div className="hidden space-x-1 lg:flex gap-2">
                 {selected.length > 2 ? (
                   <Badge
                     variant="secondary"
                     className="rounded-sm px-1 font-normal"
+                    onClick={() => setSelected([])}
                   >
                     {selected.length} selected
+                    <X className="border  rounded-lg w-4 h-4 mr-2 text-white bg-red-500/70" />
                   </Badge>
                 ) : (
                   europeanCountries
@@ -85,8 +89,12 @@ const CountryDropdown: FC<{
                         variant="secondary"
                         key={option.label}
                         className="rounded-sm px-1 font-normal  text-[10px] "
+                        onClick={() =>
+                          setSelected([...selected.filter((x) => x != option)])
+                        }
                       >
                         {option.label}
+                        <X className="border  rounded-lg w-4 h-4 mr-2 text-white bg-red-500/70" />
                       </Badge>
                     ))
                 )}

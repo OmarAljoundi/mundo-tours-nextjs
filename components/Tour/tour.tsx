@@ -10,6 +10,18 @@ import TourStory from "./tour-story";
 import TourBenfits from "./tour-benfits";
 import TourHotels from "./tour-hotels";
 import ContactForm from "../Common/contact-form";
+import {
+  BedDouble,
+  BedSingle,
+  CalendarDays,
+  Clock7,
+  MapPin,
+  QrCode,
+  Type,
+} from "lucide-react";
+import BlurImage from "../Common/blur-image";
+import Share from "./share";
+import TourLinks from "./tour-links";
 
 const Tour = () => {
   const { tourName } = useParams();
@@ -35,75 +47,127 @@ const Tour = () => {
     tourCountries,
     tourType,
     price,
+    pricePerSingle,
   } = response.tour;
 
   return (
     <div>
       <div className="bg-secondary/5 p-4">
         <div className="container">
-          <div className="flex justify-between flex-wrap items-start ">
-            <div className="grid items-start content-center">
-              <div className="mb-4">
-                <div className="flex items-center  gap-x-5 justify-between flex-wrap mb-3">
-                  <h1 className="text-gray-700  dark:text-gray-100 mr-2 lg:text-3xl text-2xl font-primary font-bold">
-                    {name}
-                  </h1>
-                  <span className="text-primary text-xl font-medium mr-1">
-                    {price} ر.ع
-                    <span className="text-base text-neutral-700">
-                      {" "}
-                      / للشخص في الغرفة المزدوجة{" "}
-                    </span>
-                  </span>
+          <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-16 justify-center lg:justify-between  items-start ">
+            <div className="px-3 sm:px-4 lg:px-6 py-6 col-span-2  bg-white rounded-2xl border border-neutral-40 mb-6 shadow-card w-full">
+              <h1 className="text-3xl text-center font-primary">الأسعار</h1>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-between mt-5">
+                <div className="shadow-lg p-5 border rounded-lg">
+                  <div className="grid items-center justify-items-center">
+                    <div className="bg-primary p-2 rounded-full">
+                      <BedSingle className=" text-white " />
+                    </div>
+                    <h4 className="mt-2  text-base sm:text-sm md:text-sm font-primary">
+                      الشخض في الغرفة المزدوجة
+                    </h4>
+                    <h2 className="text-xl font-bold">{price}</h2>
+                  </div>
                 </div>
-                <div className="flex items-center text-primary mt-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="h-5 w-5 mr-1"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                  <p className="text-lg font-primary  mr-2">
-                    {tourCountries?.map((i: any) => i.label).join(" | ")}
-                  </p>
+                <div className="shadow-lg p-5 border rounded-lg">
+                  <div className="grid items-center justify-items-center ">
+                    <div className="bg-primary p-2 rounded-full">
+                      <BedDouble className=" text-white " />
+                    </div>
+                    <h4 className="mt-2 text-base sm:text-sm md:text-sm font-primary">
+                      الشخض في الغرفة المفردة
+                    </h4>
+                    <h2 className="text-xl font-bold">{pricePerSingle}</h2>
+                  </div>
                 </div>
-                <div className="flex flex-wrap mt-4">
-                  <span className="bg-primary/50 text-xs text-black font-medium rounded-full px-4 py-1 flex items-center mr-1 mb-3 font-primary">
-                    <span>مدة الرحلة {numberOfDays} أيام</span>
-                  </span>
-                  <span className="bg-primary/50  text-black font-medium rounded-full px-4 text-xs py-1 flex items-center mr-1 mb-3 font-primary">
-                    <span className="mr-1">{tourType?.type}</span>
-                  </span>
-                  <span className="bg-primary/50  text-black font-medium rounded-full px-4 text-xs py-1 flex items-center mr-1 mb-3 font-primary">
-                    الأيام ({startDay})
-                  </span>
+              </div>
+              <div className="grid grid-cols-1 xl:grid-cols-2 xl:gap-x-8  border-t border-dashed mt-4  gap-md-0 divide-y divide-dashed font-primary">
+                <div className="py-2 col-span-2">
+                  <div className="flex items-center gap-4 ">
+                    <div className="bg-primary p-2 rounded-full">
+                      <MapPin className=" text-white " />
+                    </div>
+                    <div className="grid items-center ">
+                      <span>الدول</span>
+                      <span className="text-primary font-primary">
+                        {tourCountries?.map((i) => i.label)?.join(" - ")}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center lg:justify-start gap-2 mt-4">
-                  <Button size={"sm"}>مشاركة البرنامج</Button>
-                  <ContactForm tourId={id!} />
+
+                <div className="py-2 col-span-2">
+                  <div className="flex items-center gap-4 ">
+                    <div className="bg-primary p-2 rounded-full">
+                      <Clock7 className=" text-white " />
+                    </div>
+                    <div className="grid items-center w-fit">
+                      <span>المدة</span>
+                      <span>
+                        <span className="text-primary">
+                          {numberOfDays} أيام
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="py-2 col-span-2">
+                  <div className="flex justify-between items-end">
+                    <div className="flex items-center gap-4 ">
+                      <div className="bg-primary p-2 rounded-full">
+                        <CalendarDays className=" text-white " />
+                      </div>
+                      <div className="grid items-center ">
+                        <span>تاريخ الرحلة</span>
+                        <div
+                          className="flex justify-between
+                     items-center gap-4"
+                        >
+                          <span className="text-primary">
+                            أيام {startDay} أسبوعياً
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    {/* <DatesData tour={tour} /> */}
+                  </div>
+                </div>
+                <div className="py-2 col-span-2">
+                  <div className="flex items-center gap-4 ">
+                    <div className="bg-primary p-2 rounded-full">
+                      <Type className=" text-white " />
+                    </div>
+                    <div className="grid items-center ">
+                      <span>نوع الرحلة الرحلة</span>
+                      <span>
+                        <span className="text-primary">{tourType?.type}</span>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="mb-4">
-              <Image
+            <div className="px-3 sm:px-4 lg:px-6 py-6 bg-white rounded-2xl border border-neutral-40 mb-6 shadow-card">
+              <h1 className="text-3xl text-center font-primary mb-5 ">
+                {name}
+              </h1>
+              <BlurImage
                 className="rounded-md"
                 src={imageUrl ?? ""}
                 alt={seoAlt ?? ""}
-                width={400}
-                height={50}
+                quality={100}
+                width={640}
+                height={427}
               />
+              <Share />
             </div>
           </div>
         </div>
       </div>
       <div className="container mt-12">
         <TourStory tour={response.tour} />
+        <TourLinks tour={response.tour} />
+
         <TourBenfits tour={response.tour} />
         {hotels && <TourHotels tour={response.tour} />}
       </div>

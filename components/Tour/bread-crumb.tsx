@@ -43,7 +43,7 @@ const BreadCrumb = () => {
             className="flex h-10 items-center gap-1.5 bg-gray-100 px-4 transition hover:text-gray-900"
           >
             <span className="ms-1.5 text-xs font-medium font-primary">
-              الوجهات السياحية
+              جميع الرحلات
             </span>
           </Link>
         </li>

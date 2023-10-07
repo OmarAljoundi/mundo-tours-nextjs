@@ -9,9 +9,6 @@ import { Order, SearchQuery, eFilterOperator } from "@/interface/Search";
 import { http } from "@/service/httpService";
 import { daysFilter } from "./utils";
 import { ITourType } from "@/interface/Tour";
-import { BaseResponse } from "@/interface/BaseResponse";
-import { ILocationTours } from "@/interface/Location";
-import { IContent } from "@/interface/Content";
 import { ICustomer } from "@/interface/Customer";
 
 type TourSearch = {
@@ -23,6 +20,9 @@ type TourSearch = {
   tab?: string | null;
   type?: string | null;
   pageIndex?: number | null;
+  maxprice?: number | null;
+  sortMemebr?: string | null;
+  sortOrder?: Order | null;
 };
 
 export async function getBestTours(ids: number[]) {
@@ -44,7 +44,18 @@ export async function getBestTours(ids: number[]) {
   return result;
 }
 export async function getTours(prop: TourSearch) {
-  const { columns, country, days, tourIds, pageSize, type, pageIndex } = prop;
+  const {
+    columns,
+    country,
+    days,
+    tourIds,
+    pageSize,
+    type,
+    pageIndex,
+    maxprice,
+    sortMemebr,
+    sortOrder,
+  } = prop;
 
   var _SQ: SearchQuery = {
     FilterByOptions: [],
@@ -85,6 +96,26 @@ export async function getTours(prop: TourSearch) {
       FilterFor: `${totalDays.join(",")}`,
       FilterOperator: eFilterOperator.EqualsToList,
       MemberName: "numberOfDays",
+    });
+  }
+
+  if (sortMemebr && sortOrder) {
+    _SQ.OrderByOptions.push({
+      MemberName: sortMemebr,
+      SortOrder: Number(sortOrder),
+    });
+  } else {
+    _SQ.OrderByOptions.push({
+      MemberName: "Price",
+      SortOrder: Order.ASC,
+    });
+  }
+
+  if (maxprice) {
+    _SQ.FilterByOptions.push({
+      MemberName: "maxprice",
+      FilterFor: maxprice,
+      FilterOperator: eFilterOperator.EqualsTo,
     });
   }
 

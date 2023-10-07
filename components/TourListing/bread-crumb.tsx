@@ -45,7 +45,7 @@ const BreadCrumb = () => {
                 className="flex h-10 items-center gap-1.5 bg-gray-100 px-4 transition hover:text-gray-900"
               >
                 <span className="ms-1.5 text-xs font-medium font-primary">
-                  الوجهات السياحية
+                  جميع الرحلات
                 </span>
               </Link>
             </li>
@@ -68,7 +68,7 @@ const BreadCrumb = () => {
               href="/tour-listing"
               className="flex h-10 items-center bg-white pe-4 ps-8 text-xs font-medium transition hover:text-gray-900 font-primary"
             >
-              الوجهات السياحية
+              جميع الرحلات
             </Link>
           </li>
         )}

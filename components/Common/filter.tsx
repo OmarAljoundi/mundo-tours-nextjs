@@ -16,6 +16,7 @@ import Tabs from "../TourListing/tabs";
 import { usePathname, useRouter } from "next/navigation";
 import TypeDropdown from "./type-dropdown";
 import SortDropdown from "./sort-dropdown";
+import { Separator } from "../ui/separator";
 
 type FilterOptions = {
   onChange: boolean;
@@ -96,6 +97,7 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
         country: search?.country,
         tab: search?.tab,
         type: search?.type,
+        maxprice: search?.maxprice,
         sortMemebr: search?.sortMemebr,
         sortOrder: search?.sortOrder,
       };
@@ -161,7 +163,7 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
       <div
         className={cn(
           "p-3 sm:p-4 lg:py-6 lg:px-8 bg-white  shadow-lg  grid gap-2  grid-cols-2",
-          onChange ? "lg:grid-cols-6" : "lg:grid-cols-5"
+          onChange ? "lg:grid-cols-3" : "lg:grid-cols-5"
         )}
       >
         {enableTabs && (
@@ -172,23 +174,24 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
           />
         )}
 
+        <PriceDropdown
+          onChange={onChange}
+          search={search}
+          setSearch={setSearch}
+        />
+
+        <CountryDropdown
+          onChange={onChange}
+          search={search}
+          setSearch={setSearch}
+        />
         <TypeDropdown
           types={types!}
           setSearch={setSearch}
           search={search}
           onChange={onChange}
         />
-        <CountryDropdown
-          onChange={onChange}
-          search={search}
-          setSearch={setSearch}
-        />
 
-        <PriceDropdown
-          onChange={onChange}
-          search={search}
-          setSearch={setSearch}
-        />
         <DurationDropdown
           onChange={onChange}
           search={search}
@@ -215,8 +218,11 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
           </section>
         )}
       </div>
+
       {enableTabs === true && (
-        <Tabs onChange={onChange} search={search} setSearch={setSearch} />
+        <>
+          <Tabs onChange={onChange} search={search} setSearch={setSearch} />
+        </>
       )}
     </div>
   );

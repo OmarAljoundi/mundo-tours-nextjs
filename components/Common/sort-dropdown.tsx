@@ -13,7 +13,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { Check, Plus } from "lucide-react";
+import { Check, Plus, X } from "lucide-react";
 import { QueryString, cn, orderFilter } from "@/lib/utils";
 import { Separator } from "../ui/separator";
 import { useParams, useRouter } from "next/navigation";
@@ -45,9 +45,17 @@ const SortDropdown: FC<{
               <Separator orientation="vertical" className="mx-2 h-4" />
               <Badge
                 variant="secondary"
-                className="rounded-sm px-1 font-normal"
+                className="rounded-sm px-1 font-normal truncate"
+                onClick={() =>
+                  setSearch({
+                    ...search,
+                    sortMemebr: undefined,
+                    sortOrder: undefined,
+                  })
+                }
               >
                 {getValue()}
+                <X className="border  rounded-lg w-4 h-4 mr-2 text-white bg-red-500/70" />
               </Badge>
             </>
           )}
@@ -82,25 +90,6 @@ const SortDropdown: FC<{
                 );
               })}
             </CommandGroup>
-            {getValue() && (
-              <>
-                <CommandSeparator />
-                <CommandGroup>
-                  <CommandItem
-                    className="justify-center text-center"
-                    onSelect={() =>
-                      setSearch({
-                        ...search,
-                        sortMemebr: undefined,
-                        sortOrder: undefined,
-                      })
-                    }
-                  >
-                    حذف الفلتر
-                  </CommandItem>
-                </CommandGroup>
-              </>
-            )}
           </CommandList>
         </Command>
       </PopoverContent>

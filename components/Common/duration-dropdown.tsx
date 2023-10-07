@@ -12,7 +12,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { Check, Plus } from "lucide-react";
+import { Check, Plus, X } from "lucide-react";
 import { QueryString, cn, daysFilter, europeanCountries } from "@/lib/utils";
 import { Separator } from "../ui/separator";
 import qs from "query-string";
@@ -68,16 +68,20 @@ const DurationDropdown: FC<{
               <Badge
                 variant="secondary"
                 className="rounded-sm px-1 font-normal lg:hidden "
+                onClick={() => setSelected([])}
               >
                 {selected.length}
+                <X className="border  rounded-lg w-4 h-4 mr-2 text-white bg-red-500/70" />
               </Badge>
               <div className="hidden space-x-1 lg:flex">
                 {selected.length > 1 ? (
                   <Badge
                     variant="secondary"
                     className="rounded-sm px-1 font-normal"
+                    onClick={() => setSelected([])}
                   >
                     {selected.length}
+                    <X className="border  rounded-lg w-4 h-4 mr-2 text-white bg-red-500/70" />
                   </Badge>
                 ) : (
                   daysFilter
@@ -87,8 +91,12 @@ const DurationDropdown: FC<{
                         variant="secondary"
                         key={option.label}
                         className="rounded-sm px-1 font-normal  text-[10px]"
+                        onClick={() =>
+                          setSelected([...selected.filter((x) => x != option)])
+                        }
                       >
                         {option.label}
+                        <X className="border  rounded-lg w-4 h-4 mr-2 text-white bg-red-500/70" />
                       </Badge>
                     ))
                 )}

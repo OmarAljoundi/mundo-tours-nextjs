@@ -9,6 +9,7 @@ import { useInView } from "react-intersection-observer";
 import React from "react";
 import { ITour } from "@/interface/Tour";
 import TourCardLoading from "../Common/tour-card-loading";
+import { Order } from "@/interface/Search";
 
 const Tours = () => {
   const searchParams = useSearchParams();
@@ -72,6 +73,9 @@ const Tours = () => {
       searchParams?.get("tab"),
       searchParams?.get("type"),
       searchParams?.get("page"),
+      searchParams?.get("maxprice"),
+      searchParams?.get("sortMemebr"),
+      searchParams?.get("sortOrder"),
       destination,
       loacationsTours,
     ],
@@ -84,6 +88,9 @@ const Tours = () => {
         type: searchParams?.get("type") as string,
         tourIds: getTourIds(),
         pageIndex: pageParam,
+        sortMemebr: searchParams?.get("sortMemebr"),
+        maxprice: searchParams?.get("maxprice") as any,
+        sortOrder: searchParams?.get("sortOrder") as any,
       }),
     {
       refetchOnWindowFocus: false,
@@ -98,6 +105,9 @@ const Tours = () => {
         if (currentTotal < lastPage.total) return allPages.length;
 
         return undefined;
+      },
+      onError(err) {
+        console.log("Error", err);
       },
     }
   );

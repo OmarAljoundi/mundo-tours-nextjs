@@ -83,7 +83,7 @@ const PriceDropdown: FC<{
               backgroundColor: "var(--primary)",
               borderColor: "var(--primary)",
             }}
-            max={1000}
+            max={1800}
             trackStyle={{ backgroundColor: "var(--primary)" }}
             value={value}
             onChange={(value) => setValue(value as number)}
