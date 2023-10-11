@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -96,7 +97,7 @@ const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
       open={open}
     >
       <DialogTrigger>
-        <Button size={"sm"} variant={"secondary"}>
+        <Button size={"sm"} variant={"secondary"} className="font-primary">
           طريقة الحجز
         </Button>
       </DialogTrigger>
@@ -212,6 +213,13 @@ const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
             إرســال
           </Button>
         </form>
+        <span className="font-primary">
+          {" "}
+          او يمكنكم التواصل مباشره على هذا الرقم{" "}
+          <a className="bold underline font-english" href="tel:95929210">
+            95929210
+          </a>{" "}
+        </span>
       </DialogContent>
     </Dialog>
   );

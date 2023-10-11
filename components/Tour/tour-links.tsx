@@ -17,6 +17,7 @@ const TourLinks: FunctionComponent<TourLinksProps> = ({ tour }) => {
         <div className="flex gap-6">
           <ContactForm tourId={tour.id} />
           <Button
+            className="font-primary"
             size={"sm"}
             variant={"secondary"}
             onClick={async () => await generate(tour)}

@@ -4,6 +4,7 @@ import { getTourTypes } from "@/lib/fetchers";
 import Image from "next/image";
 import { useQuery } from "react-query";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const Category = () => {
   const { isLoading, data: response } = useQuery(
@@ -24,7 +25,9 @@ const Category = () => {
                 alt={i.type}
               />
               <h4 className="font-primary text-xl">{i.type}</h4>
-              <Button>المزيد</Button>
+              <Link href={`/tour-listing?type=${i.type}`}>
+                <Button>المزيد</Button>
+              </Link>
             </div>
           </div>
         ))}

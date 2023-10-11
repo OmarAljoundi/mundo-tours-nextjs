@@ -1,6 +1,6 @@
 "use client";
 import { getDestination } from "@/lib/fetchers";
-import { cn } from "@/lib/utils";
+import { cn, getGridClass } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "react-query";
@@ -31,7 +31,29 @@ const Destination = () => {
               key={location.id}
               className={cn(
                 "block col-span-12",
-                location.imageSize == 4 ? `sm:col-span-4` : "sm:col-span-6"
+                location.imageSize == 1
+                  ? "sm:col-span-1"
+                  : location.imageSize == 2
+                  ? "sm:col-span-2"
+                  : location.imageSize == 3
+                  ? "sm:col-span-3"
+                  : location.imageSize == 4
+                  ? "sm:col-span-4"
+                  : location.imageSize == 5
+                  ? "sm:col-span-5"
+                  : location.imageSize == 6
+                  ? "sm:col-span-6"
+                  : location.imageSize == 7
+                  ? "sm:col-span-7"
+                  : location.imageSize == 8
+                  ? "sm:col-span-8"
+                  : location.imageSize == 9
+                  ? "sm:col-span-9"
+                  : location.imageSize == 10
+                  ? "sm:col-span-10"
+                  : location.imageSize == 11
+                  ? "sm:col-span-11"
+                  : "col-span-12"
               )}
             >
               <div className="relative rounded-2xl group transition-all duration-500">

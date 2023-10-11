@@ -15,7 +15,7 @@ const PriceDropdown: FC<{
   search: QueryString;
 }> = ({ onChange, search, setSearch }) => {
   const pathname = usePathname();
-  const [value, setValue] = useState<number>(1000);
+  const [value, setValue] = useState<number>(900);
   const debouncedValue = useDebounce<number>(value, 750);
   const router = useRouter();
 

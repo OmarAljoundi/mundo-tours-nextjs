@@ -106,3 +106,23 @@ export const orderFilter =[
     order:Order.ASC
   },
 ]
+
+export const getGridClass = (size:number) => {
+  console.log("size",size)
+  switch(size){
+    case 1:return "sm:col-span-1"
+    case 2:return "sm:col-span-2"
+    case 3:return "sm:col-span-3"
+    case 4:return "sm:col-span-4"
+    case 5:return "sm:col-span-5"
+    case 6:return "sm:col-span-6"
+    case 7:return "sm:col-span-7"
+    case 8:return "sm:col-span-8"
+    case 9:return "sm:col-span-9"
+    case 10:return "sm:col-span-10"
+    case 11:return "sm:col-span-11"
+    case 12:return "sm:col-span-12"
+    default: return "sm:col-span-12"
+  }
+  
+}

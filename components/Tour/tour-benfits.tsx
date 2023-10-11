@@ -1,5 +1,5 @@
 import { ITour } from "@/interface/Tour";
-import { Check, X } from "lucide-react";
+import { Check, Dot, X } from "lucide-react";
 import { FC } from "react";
 const TourBenfits: FC<{ tour: ITour }> = ({ tour }) => {
   return (
@@ -12,11 +12,25 @@ const TourBenfits: FC<{ tour: ITour }> = ({ tour }) => {
       <ul className="flex flex-col gap-4 mb-10">
         {tour?.tourIncludes?.map((i) => (
           <li key={i.id}>
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 grid place-content-center rounded-full shrink-0 bg-green-500/80">
-                <Check className="p-1 text-white" />
+            <div className="flex items-start gap-4">
+              <div className="w-6 h-6 grid place-content-center rounded-full shrink-0 bg-green-700">
+                <Check className="las w-6 h-6 p-1 text-lg text-white" />
               </div>
-              <span className="inline-block font-primary">{i.details}</span>
+              <div className="grid items-start">
+                <span className="font-bold font-primary">{i.title}</span>
+                <span className="inline-block font-primary ">
+                  <div className="grid items-center flex-wrap">
+                    {i.details.split(",").map((i) => (
+                      <div className="flex items-center" key={i}>
+                        <div>
+                          <Dot className="text-green-900 w-6 h-6" />
+                        </div>
+                        <div>{i}</div>
+                      </div>
+                    ))}
+                  </div>
+                </span>
+              </div>
             </div>
           </li>
         ))}

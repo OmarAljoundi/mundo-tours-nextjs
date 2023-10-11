@@ -1,5 +1,6 @@
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import Link from "next/link";
+import { AiOutlineWhatsApp } from "react-icons/ai";
 
 const Share = () => {
   return (
@@ -8,6 +9,14 @@ const Share = () => {
         شارك البرنامج مع أصدقائك
       </h1>
       <ul className="flex gap-3 items-center ">
+        <li>
+          <Link
+            href="#"
+            className="link w-8 h-8 grid place-content-center bg-white  rounded-full hover:bg-secondary shadow-card group"
+          >
+            <AiOutlineWhatsApp className="lab text-2xl  group-hover:text-white" />
+          </Link>
+        </li>
         <li>
           <Link
             href="#"

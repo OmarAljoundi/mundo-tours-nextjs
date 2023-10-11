@@ -61,7 +61,7 @@ const DurationDropdown: FC<{
           className="text-left w-full  cursor-pointer"
         >
           <Plus className="ml-2 h-4 w-4" />
-          مدة الرحلة
+          عدد الأيام
           {selected.length > 0 && (
             <>
               <Separator orientation="vertical" className="mx-2 h-4" />

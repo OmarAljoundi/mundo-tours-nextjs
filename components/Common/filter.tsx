@@ -174,12 +174,6 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
           />
         )}
 
-        <PriceDropdown
-          onChange={onChange}
-          search={search}
-          setSearch={setSearch}
-        />
-
         <CountryDropdown
           onChange={onChange}
           search={search}
@@ -193,6 +187,11 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
         />
 
         <DurationDropdown
+          onChange={onChange}
+          search={search}
+          setSearch={setSearch}
+        />
+        <PriceDropdown
           onChange={onChange}
           search={search}
           setSearch={setSearch}
