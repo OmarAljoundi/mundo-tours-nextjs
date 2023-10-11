@@ -131,6 +131,8 @@ export async function getTourBySlug(slug: string) {
     PageSize: 1,
   };
 
+  var x = "";
+
   _SQ.FilterByOptions.push({
     FilterFor: slug?.replaceAll("-", " "),
     FilterOperator: eFilterOperator.EqualsTo,
