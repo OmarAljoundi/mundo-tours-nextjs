@@ -85,7 +85,7 @@ const Destination = () => {
                       className="inline-flex text-xs rounded-2xl px-4 py-2
                      items-center bg-white/50 group-hover:bg-white/70  justify-center  duration-300 font-primary"
                     >
-                      {location.totalTours} رحلات ضمن البرنامج
+                      {location.totalTours} رحلات
                     </div>
                   </div>
                 </div>
