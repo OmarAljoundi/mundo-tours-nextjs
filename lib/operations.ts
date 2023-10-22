@@ -1,5 +1,4 @@
-'use server'
-import { Customer, Hotel, Location, LocationAttributes, LocationTours, Office, Response, Setting, Tour, TourType, User } from '@/types/custom'
+import { Customer, Hotel, Location, LocationAttributes, Office, Response, Setting, Tour, TourType } from '@/types/custom'
 import { supabaseClient } from './supabaseClient'
 import { http } from '@/service/httpService'
 import {
@@ -11,13 +10,8 @@ import {
   REVALIDATE_TOUR_LIST,
   REVALIDATE_TOUR_TYPE,
   SETTING_PATH,
-  TOUR_IMAGE,
 } from './keys'
 import { Order, SearchQuery } from '@/types/search'
-import { useRouter } from 'next/navigation'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/types/supabase'
-import { cookies } from 'next/headers'
 import { v4 } from 'uuid'
 import { formatDistance, subDays } from 'date-fns'
 
@@ -304,17 +298,7 @@ export async function createDestinationAttr(destinationAttr: LocationAttributes)
     }
   }
 }
-export const getCurrentUser = async (): Promise<boolean | undefined> => {
-  const supabase = createRouteHandlerClient<Database>({ cookies })
-  const { data: session_response, error: session_error } = await supabase.auth.getUser()
 
-  if (session_response?.user) {
-    return true
-  }
-
-  console.log('User not authenticated.' + session_error?.message)
-  return false
-}
 export async function createHotel(hotel: Hotel) {
   const { data, error } = await supabaseClient
     .from('hotel')
