@@ -40,5 +40,9 @@ export default async function TourPage({ params }: { params: { tourName: string 
   const tours = await getTours()
   const tour = tours?.find((x) => x.slug == decodeURIComponent(params.tourName))
 
-  return <Tour tour={tour!} />
+  return (
+    <>
+      <Tour tour={tour!} />
+    </>
+  )
 }
