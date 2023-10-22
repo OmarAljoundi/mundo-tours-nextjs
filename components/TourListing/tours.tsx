@@ -1,147 +1,64 @@
-"use client";
+'use client'
+import TourCard from '../common/tour-card'
+import { useState, useEffect, FC } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useInView } from 'react-intersection-observer'
+import React from 'react'
+import { Tour } from '@/types/custom'
+import { filterTours } from '@/lib/utils'
 
-import { getDestination, getLocationTours, getTours } from "@/lib/fetchers";
-import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
-import TourCard from "../Common/tour-card";
-import { useState, useEffect } from "react";
-import { useParams, useSearchParams } from "next/navigation";
-import { useInView } from "react-intersection-observer";
-import React from "react";
-import { ITour } from "@/interface/Tour";
-import TourCardLoading from "../Common/tour-card-loading";
-import { Order } from "@/interface/Search";
-
-const Tours = () => {
-  const searchParams = useSearchParams();
-  const { destination } = useParams();
-  const selectedDest = decodeURIComponent(destination?.toString());
-  const { ref, inView } = useInView();
-  const LIMIT = 10;
-
-  const { data: location_response, isLoading: locationLoading } = useQuery(
-    "locations-2",
-    async () => await getDestination(),
-    {
-      refetchOnWindowFocus: false,
-      enabled: true,
-    }
-  );
-
-  const getLocationId = (dest: string) => {
-    return location_response?.locations?.find((x) => x.name === dest)?.id || 0;
-  };
-
-  const { data: loacationsTours, isLoading: isLoadingLocationTours } = useQuery(
-    [destination, locationLoading],
-    async () =>
-      await getLocationTours(getLocationId(selectedDest?.replaceAll("-", " "))),
-    {
-      refetchInterval: false,
-      refetchOnWindowFocus: false,
-      enabled:
-        destination != "" &&
-        !locationLoading &&
-        getLocationId(selectedDest?.replaceAll("-", " ")) > 0,
-    }
-  );
-
-  const getTourIds = () => {
-    if (loacationsTours) {
-      if (loacationsTours.total == 1) {
-        return loacationsTours?.locationTours[0].tourIds;
-      } else if (loacationsTours.locationTours.length > 1) {
-        const tab = searchParams?.get("tab") ?? "1";
-        return loacationsTours.locationTours.find((o) => o.tab == Number(tab))
-          ?.tourIds;
-      }
-    }
-    return null;
-  };
-
-  const {
-    data: response,
-    isSuccess,
-    hasNextPage,
-    isLoading,
-    isFetchingNextPage,
-
-    fetchNextPage,
-  } = useInfiniteQuery(
-    [
-      searchParams?.get("country"),
-      searchParams?.get("days"),
-      searchParams?.get("tab"),
-      searchParams?.get("type"),
-      searchParams?.get("page"),
-      searchParams?.get("maxprice"),
-      searchParams?.get("sortMemebr"),
-      searchParams?.get("sortOrder"),
-      destination,
-      loacationsTours,
-    ],
-    async ({ pageParam = 0 }) =>
-      await getTours({
-        pageSize: 10,
-        country: searchParams?.get("country") as string,
-        days: searchParams?.get("days") as string,
-        tab: searchParams?.get("tab") as string,
-        type: searchParams?.get("type") as string,
-        tourIds: getTourIds(),
-        pageIndex: pageParam,
-        sortMemebr: searchParams?.get("sortMemebr"),
-        maxprice: searchParams?.get("maxprice") as any,
-        sortOrder: searchParams?.get("sortOrder") as any,
-      }),
-    {
-      refetchOnWindowFocus: false,
-      refetchInterval: false,
-      keepPreviousData: false,
-      enabled: true,
-      getNextPageParam: (lastPage, allPages) => {
-        let currentTotal = 0;
-        allPages.map((i) => {
-          currentTotal += i.tours.length;
-        });
-        if (currentTotal < lastPage.total) return allPages.length;
-
-        return undefined;
-      },
-      onError(err) {
-        console.log("Error", err);
-      },
-    }
-  );
+const Tours: FC<{ tours: Tour[] }> = ({ tours }) => {
+  const searchParams = useSearchParams()
+  const { ref, inView } = useInView()
+  const [currentSize, setCurrentSize] = useState(10)
+  const [currentTours, setCurrentTours] = useState([...tours])
 
   useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
+    console.log(inView)
+    if (inView) {
+      setCurrentSize(currentSize + 10)
     }
-  }, [inView, fetchNextPage, hasNextPage]);
+  }, [inView])
 
-  console.log("is loaind", isLoading);
+  useEffect(() => {
+    setCurrentTours(
+      filterTours(
+        {
+          country: searchParams?.get('country') as string,
+          days: searchParams?.get('days') as string,
+          type: searchParams?.get('type') as string,
+          sortMemebr: searchParams?.get('sortMemebr'),
+          maxprice: searchParams?.get('maxprice') as any,
+          sortOrder: searchParams?.get('sortOrder') as any,
+        },
+        tours,
+      ),
+    )
+  }, [
+    searchParams?.get('country'),
+    searchParams?.get('days'),
+    searchParams?.get('tab'),
+    searchParams?.get('type'),
+    searchParams?.get('page'),
+    searchParams?.get('maxprice'),
+    searchParams?.get('sortMemebr'),
+    searchParams?.get('sortOrder'),
+  ])
 
   return (
     <div>
       <div className="grid grid-cols-12 gap-x-2 gap-y-4 lg:gap-8">
-        {isSuccess &&
-          response.pages.map((page) =>
-            page?.tours?.map((tour, i) => {
-              if (page?.tours?.length === i + 1) {
-                return <TourContent ref={ref} key={tour.id} {...tour} />;
-              }
-              return <TourContent key={tour.id} {...tour} />;
-            })
-          )}
-        {(isLoading || isFetchingNextPage) &&
-          Array.from(new Array(3)).map((i) => <TourCardLoading key={i} />)}
+        {currentTours?.slice(0, currentSize).map((tour) => (
+          <TourContent ref={ref} key={tour.id} {...tour} />
+        ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Tours;
+export default Tours
 
-const TourContent = React.forwardRef((tour: ITour, ref) => {
+const TourContent = React.forwardRef((tour: Tour, ref) => {
   const content = ref ? (
     <article
       className="col-span-12 sm:col-span-6 xl:col-span-4 px-3 xl:px-0"
@@ -154,6 +71,6 @@ const TourContent = React.forwardRef((tour: ITour, ref) => {
     <article className="col-span-12 sm:col-span-6 xl:col-span-4 px-3 xl:px-0">
       <TourCard tour={tour} />
     </article>
-  );
-  return content;
-});
+  )
+  return content
+})

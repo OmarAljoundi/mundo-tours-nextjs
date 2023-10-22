@@ -1,127 +1,86 @@
-"use client";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import * as yup from "yup";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+'use client'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import * as yup from 'yup'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
-import { useFormik } from "formik";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-
-import { FC, useState } from "react";
-import { submitForm } from "@/lib/fetchers";
-import { ICustomer, eCustomerStatus } from "@/interface/Customer";
-import { useNotification } from "../ui/notification";
-import { submitEventForm } from "@/lib/gtm";
-import { usePathname } from "next/navigation";
+import { useFormik } from 'formik'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { format } from 'date-fns'
+import { Calendar as CalendarIcon } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { Calendar } from '@/components/ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { FC, useState } from 'react'
+import { eCustomerStatus } from '@/interface/Customer'
+import { useNotification } from '../ui/notification'
+import { submitEventForm } from '@/lib/gtm'
+import { usePathname } from 'next/navigation'
+import { toast } from 'sonner'
+import { Customer } from '@/types/custom'
+import { submitForm } from '@/lib/operations'
 const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
-  const [date, setDate] = useState<Date>();
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const [isSubmitting, setSubmitting] = useState(false);
-  const { error, success } = useNotification();
-  const handleSubmitForm = async (data: ICustomer) => {
-    setSubmitting(true);
-    data.phoneNumber = String(data.phoneNumber);
+  const [date, setDate] = useState<Date>()
+  const pathname = usePathname()
+  const [open, setOpen] = useState(false)
+  const [isSubmitting, setSubmitting] = useState(false)
+  const { error, success } = useNotification()
+
+  const handleSubmitForm = async (data: Customer) => {
+    setSubmitting(true)
+    data.phone_number = String(data.phone_number)
     if (date) {
-      data.notes += `(التاريخ المتوقع للسفر ${format(date, "PPP")})`;
+      data.notes += `(التاريخ المتوقع للسفر ${format(date, 'PPP')})`
     }
 
-    const result = await submitForm(data);
+    const result = await submitForm(data)
     if (result.success) {
-      success("سنقوم بالتواصل معك قريباَ");
-      submitEventForm(pathname);
+      toast.success('سنقوم بالتواصل معك قريباَ')
+      //submitEventForm(pathname)
     } else {
-      error("حدث خطأ ما.. الرجاء المحاولة مجدداً");
+      toast.error('حدث خطأ ما.. الرجاء المحاولة مجدداً')
     }
-    setSubmitting(false);
-    setOpen(false);
-  };
+    setSubmitting(false)
+    setOpen(false)
+  }
 
-  const {
-    values,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    setFieldValue,
-    resetForm,
-    touched,
-    errors,
-  } = useFormik({
+  const { values, handleChange, handleBlur, handleSubmit, setFieldValue, resetForm, touched, errors } = useFormik({
     initialValues: {
-      phoneNumber: "",
-      name: "",
-      contactMethod: "",
-      tourId: tourId,
-      notes: "",
-      createdDate: null,
-      email: "",
-      id: 0,
-      modifiedDate: null,
+      phone_number: '',
+      name: '',
+      contact_method: '',
+      tour_id: tourId,
+      notes: '',
       status: eCustomerStatus.Pending,
     },
     onSubmit: handleSubmitForm,
     validateOnBlur: true,
     validateOnChange: true,
     validationSchema: Schema,
-  });
+  })
 
   return (
     <Dialog
       onOpenChange={() => {
-        resetForm();
-        setOpen(!open);
+        resetForm()
+        setOpen(!open)
       }}
       open={open}
     >
       <DialogTrigger>
-        <Button size={"sm"} variant={"secondary"} className="font-primary">
+        <Button size={'sm'} variant={'secondary'} className="font-primary">
           طريقة الحجز
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className="text-right mb-4 mt-8">
-          <DialogTitle className="text-center font-primary">
-            أترك معلوماتك ليتم التواصل معك
-          </DialogTitle>
+          <DialogTitle className="text-center font-primary">أترك معلوماتك ليتم التواصل معك</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-3">
+          <Input name="name" placeholder="الإسم الكريم" id="name" dir="rtl" onChange={handleChange} onBlur={handleBlur} disabled={isSubmitting} />
+          <span className="text-[10px] text-red-500">{touched.name && errors.name}</span>
           <Input
-            name="name"
-            placeholder="الإسم الكريم"
-            id="name"
-            dir="rtl"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            disabled={isSubmitting}
-          />
-          <span className="text-[10px] text-red-500">
-            {touched.name && errors.name}
-          </span>
-          <Input
-            name="phoneNumber"
+            name="phone_number"
             placeholder="رقم التواصل"
             className="text-left placeholder:text-right"
             dir="ltr"
@@ -130,15 +89,9 @@ const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
             onBlur={handleBlur}
             disabled={isSubmitting}
           />
-          <span className="text-[10px] text-red-500">
-            {touched.phoneNumber && errors.phoneNumber}
-          </span>
+          <span className="text-[10px] text-red-500">{touched.phone_number && errors.phone_number}</span>
 
-          <Select
-            disabled={isSubmitting}
-            onValueChange={(e) => setFieldValue("contactMethod", e)}
-            name="contactMethod"
-          >
+          <Select disabled={isSubmitting} onValueChange={(e) => setFieldValue('contact_method', e)} name="contact_method">
             <SelectTrigger className="w-full" dir="rtl">
               <SelectValue placeholder="طريقة التواصل" />
             </SelectTrigger>
@@ -151,45 +104,24 @@ const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
               </SelectItem>
             </SelectContent>
           </Select>
-          <span className="text-[10px] text-red-500">
-            {touched.contactMethod && errors.contactMethod}
-          </span>
+          <span className="text-[10px] text-red-500">{touched.contact_method && errors.contact_method}</span>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 disabled={isSubmitting}
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-right font-normal",
-                  !date && "text-muted-foreground"
-                )}
+                variant={'outline'}
+                className={cn('w-full justify-start text-right font-normal', !date && 'text-muted-foreground')}
                 dir="rtl"
               >
                 <CalendarIcon className="ml-2 h-4 w-4" />
-                {date ? (
-                  format(date, "PPP")
-                ) : (
-                  <span>التاريخ التقريبي للسفر</span>
-                )}
+                {date ? format(date, 'PPP') : <span>التاريخ التقريبي للسفر</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                initialFocus
-              />
+              <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
             </PopoverContent>
           </Popover>
-          <Input
-            name="note"
-            dir="rtl"
-            placeholder="ملاحظات اخرى"
-            disabled={isSubmitting}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
+          <Input name="notes" dir="rtl" placeholder="ملاحظات اخرى" disabled={isSubmitting} onChange={handleChange} onBlur={handleBlur} />
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting && (
               <svg
@@ -214,23 +146,20 @@ const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
           </Button>
         </form>
         <span className="font-primary">
-          {" "}
-          او يمكنكم التواصل مباشره على هذا الرقم{" "}
+          {' '}
+          او يمكنكم التواصل مباشره على هذا الرقم{' '}
           <a className="bold underline font-english" href="tel:95929210">
             95929210
-          </a>{" "}
+          </a>{' '}
         </span>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ContactForm;
+export default ContactForm
 const Schema = yup.object().shape({
-  name: yup.string().required("الرجاء إدخال الإسم"),
-  phoneNumber: yup.string().required("الرجاء إدخال رقم الجوال"),
-  contactMethod: yup
-    .string()
-    .nullable()
-    .required("الرجاء إختيار طريقة التواصل"),
-});
+  name: yup.string().required('الرجاء إدخال الإسم'),
+  phone_number: yup.string().required('الرجاء إدخال رقم الجوال'),
+  contact_method: yup.string().nullable().required('الرجاء إختيار طريقة التواصل'),
+})

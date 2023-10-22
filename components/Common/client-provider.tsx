@@ -1,31 +1,42 @@
-"use client";
-import { useContentStore } from "@/hooks/useContentStore";
-import { IContent } from "@/interface/Content";
-import { FC, useEffect, useState } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+'use client'
+import { FC, useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import ToolBar from '../Layout/tool-bar'
+import Header from '../Layout/header'
+import Footer from '../Layout/footer'
+import { Setting } from '@/types/custom'
+import { useSetting } from '@/hooks/use-setting'
 
-import TagManager from "react-gtm-module";
-import { GTM_ID } from "@/lib/gtm";
-
-const ClientProvider: FC<{ children: React.ReactNode; content: IContent }> = ({
-  children,
-  content,
-}) => {
-  const setContent = useContentStore((state) => state.setContent);
-  setContent(content);
-  const [mount, setMount] = useState(false);
+const ClientProvider: FC<{ children: React.ReactNode; content?: Setting }> = ({ children, content }) => {
+  const path = usePathname()
+  const [mount, setMount] = useState(false)
+  const setting = useSetting()
 
   useEffect(() => {
-    setMount(true);
-  }, []);
+    if (content) setting.onCreate(content)
 
-  if (!mount) return null;
+    setMount(true)
+  }, [])
+
+  if (!mount) return null
 
   return (
-    <QueryClientProvider client={new QueryClient()}>
-      {children}
-    </QueryClientProvider>
-  );
-};
+    <>
+      {!path.includes('admin') && (
+        <>
+          <ToolBar />
+          <Header />
+        </>
+      )}
 
-export default ClientProvider;
+      {children}
+      {!path.includes('admin') && (
+        <>
+          <Footer />
+        </>
+      )}
+    </>
+  )
+}
+
+export default ClientProvider

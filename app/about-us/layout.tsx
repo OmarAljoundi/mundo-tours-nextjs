@@ -1,20 +1,16 @@
-import BreadCrumb from "@/components/About/bread-crumb";
-import { getContentData } from "@/lib/fetchers";
+import BreadCrumb from '@/components/About/bread-crumb'
+import { getContentData } from '@/lib/operations'
 
 export async function generateMetadata() {
-  const data = await getContentData();
+  const data = await getContentData()
   return {
-    title: data?.content?.about?.seoTitle,
-    description: data?.content?.about?.seoDescription,
-    keywords: data?.content?.about?.seoTags || "",
-  };
+    title: data?.about?.title,
+    description: data?.about?.description,
+    keywords: data?.about?.tags || '',
+  }
 }
 
-export default function AboutLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AboutLayout({ children }: { children: React.ReactNode }) {
   return (
     <section>
       <div>
@@ -24,5 +20,5 @@ export default function AboutLayout({
         <div className="mt-4 mb-16">{children}</div>
       </div>
     </section>
-  );
+  )
 }

@@ -1,23 +1,23 @@
-"use client";
-import { getBestTours } from "@/lib/fetchers";
-import { useQuery } from "react-query";
-import TourCard from "../Common/tour-card";
-import { useContentStore } from "@/hooks/useContentStore";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+'use client'
+import { useQuery } from 'react-query'
+import TourCard from '../common/tour-card'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import { Navigation } from 'swiper/modules'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { useSetting } from '@/hooks/use-setting'
+import { getTours } from '@/lib/operations'
 const BestTours = () => {
-  const content = useContentStore((x) => x.content);
-  const { isLoading, data: response } = useQuery(
-    "BestTours",
-    async () => await getBestTours(content?.home?.trendingTours || []),
-    {
-      refetchInterval: false,
-      refetchOnWindowFocus: false,
-    }
-  );
+  const content = useSetting((x) => x.setting)
+  const { isLoading, data: response } = useQuery('BestTours', async () => await getTours(), {
+    select: (data) => {
+      if (content?.best_tours && content?.best_tours?.length > 0) return data?.filter((x) => content.best_tours?.includes(x.id!))
+      return []
+    },
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  })
 
   return (
     <div className="container">
@@ -28,8 +28,8 @@ const BestTours = () => {
             slidesPerView="auto"
             spaceBetween={8}
             navigation={{
-              nextEl: ".btn-next",
-              prevEl: ".btn-prev",
+              nextEl: '.btn-next',
+              prevEl: '.btn-prev',
             }}
             breakpoints={{
               640: {
@@ -42,7 +42,7 @@ const BestTours = () => {
             modules={[Navigation]}
             className="swiper choice-slider"
           >
-            {response?.tours?.map((item, index) => (
+            {response?.map((item, index) => (
               <SwiperSlide className="px-3 my-5" key={index}>
                 <article className="col-span-12 sm:col-span-6 xl:col-span-4 px-3 xl:px-0">
                   <TourCard tour={item} key={index} />
@@ -61,7 +61,7 @@ const BestTours = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BestTours;
+export default BestTours

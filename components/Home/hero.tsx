@@ -1,5 +1,5 @@
 "use client";
-import Filter from "../Common/filter";
+import Filter from "../common/filter";
 
 const Hero = () => {
   const text1 = "أنت اختار";

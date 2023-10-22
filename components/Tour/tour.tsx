@@ -1,55 +1,16 @@
-"use client";
+'use client'
+import TourStory from './tour-story'
+import TourBenfits from './tour-benfits'
+import TourHotels from './tour-hotels'
+import { BedDouble, BedSingle, CalendarDays, Clock7, MapPin, Type } from 'lucide-react'
+import BlurImage from '../common/blur-image'
+import Share from './share'
+import TourLinks from './tour-links'
+import { FC } from 'react'
+import { Tour } from '@/types/custom'
 
-import { useParams } from "next/navigation";
-import { Button } from "../ui/button";
-import BreadCrumb from "./bread-crumb";
-import { useQuery } from "react-query";
-import { getTourBySlug } from "@/lib/fetchers";
-import Image from "next/image";
-import TourStory from "./tour-story";
-import TourBenfits from "./tour-benfits";
-import TourHotels from "./tour-hotels";
-import ContactForm from "../Common/contact-form";
-import {
-  BedDouble,
-  BedSingle,
-  CalendarDays,
-  Clock7,
-  MapPin,
-  QrCode,
-  Type,
-} from "lucide-react";
-import BlurImage from "../Common/blur-image";
-import Share from "./share";
-import TourLinks from "./tour-links";
-
-const Tour = () => {
-  const { tourName } = useParams();
-
-  const { data: response, isLoading } = useQuery(
-    tourName,
-    async () => await getTourBySlug(decodeURIComponent(tourName as string)),
-    {
-      enabled: !!tourName,
-    }
-  );
-
-  if (isLoading || !response?.tour) return null;
-
-  const {
-    id,
-    hotels,
-    imageUrl,
-    name,
-    numberOfDays,
-    seoAlt,
-    startDay,
-    tourCountries,
-    tourType,
-    price,
-    pricePerSingle,
-  } = response.tour;
-
+const Tour: FC<{ tour: Tour }> = ({ tour }) => {
+  const { id, tour_hotels, images, name, number_of_days, seo, start_day, tour_countries, tour_type, price_double, price_single } = tour
   return (
     <div>
       <div className="bg-secondary/5 p-4">
@@ -63,10 +24,8 @@ const Tour = () => {
                     <div className="bg-primary p-2 rounded-full">
                       <BedSingle className=" text-white " />
                     </div>
-                    <h4 className="mt-2  text-base sm:text-sm md:text-sm font-primary">
-                      الشخض في الغرفة المزدوجة
-                    </h4>
-                    <h2 className="text-xl font-bold">{price}</h2>
+                    <h4 className="mt-2  text-base sm:text-sm md:text-sm font-primary">الشخض في الغرفة المزدوجة</h4>
+                    <h2 className="text-xl font-bold">{price_double}</h2>
                   </div>
                 </div>
                 <div className="shadow-lg p-5 border rounded-lg">
@@ -74,10 +33,8 @@ const Tour = () => {
                     <div className="bg-primary p-2 rounded-full">
                       <BedDouble className=" text-white " />
                     </div>
-                    <h4 className="mt-2 text-base sm:text-sm md:text-sm font-primary">
-                      الشخض في الغرفة المفردة
-                    </h4>
-                    <h2 className="text-xl font-bold">{pricePerSingle}</h2>
+                    <h4 className="mt-2 text-base sm:text-sm md:text-sm font-primary">الشخض في الغرفة المفردة</h4>
+                    <h2 className="text-xl font-bold">{price_single}</h2>
                   </div>
                 </div>
               </div>
@@ -89,9 +46,7 @@ const Tour = () => {
                     </div>
                     <div className="grid items-center ">
                       <span>الدول</span>
-                      <span className="text-primary font-primary">
-                        {tourCountries?.map((i) => i.label)?.join(" - ")}
-                      </span>
+                      <span className="text-primary font-primary">{tour_countries?.map((i) => i)?.join(' - ')}</span>
                     </div>
                   </div>
                 </div>
@@ -104,9 +59,7 @@ const Tour = () => {
                     <div className="grid items-center w-fit">
                       <span>المدة</span>
                       <span>
-                        <span className="text-primary">
-                          {numberOfDays} أيام
-                        </span>
+                        <span className="text-primary">{number_of_days} أيام</span>
                       </span>
                     </div>
                   </div>
@@ -123,9 +76,7 @@ const Tour = () => {
                           className="flex justify-between
                      items-center gap-4"
                         >
-                          <span className="text-primary">
-                            أيام {startDay} أسبوعياً
-                          </span>
+                          <span className="text-primary">أيام {start_day} أسبوعياً</span>
                         </div>
                       </div>
                     </div>
@@ -140,7 +91,7 @@ const Tour = () => {
                     <div className="grid items-center ">
                       <span>نوع الرحلة الرحلة</span>
                       <span>
-                        <span className="text-primary">{tourType?.type}</span>
+                        <span className="text-primary">{tour_type?.name}</span>
                       </span>
                     </div>
                   </div>
@@ -148,31 +99,22 @@ const Tour = () => {
               </div>
             </div>
             <div className="px-3 sm:px-4 lg:px-6 py-6 bg-white rounded-2xl border border-neutral-40 mb-6 shadow-card">
-              <h1 className="text-3xl text-center font-primary mb-5 ">
-                {name}
-              </h1>
-              <BlurImage
-                className="rounded-md"
-                src={imageUrl ?? ""}
-                alt={seoAlt ?? ""}
-                quality={100}
-                width={640}
-                height={427}
-              />
+              <h1 className="text-3xl text-center font-primary mb-5 ">{name}</h1>
+              <BlurImage className="rounded-md" src={images && images.length > 0 ? images[0] : ''} alt={''} quality={100} width={640} height={427} />
               <Share />
             </div>
           </div>
         </div>
       </div>
       <div className="container mt-12">
-        <TourStory tour={response.tour} />
-        <TourLinks tour={response.tour} />
+        <TourStory tour={tour} />
+        <TourLinks tour={tour} />
 
-        <TourBenfits tour={response.tour} />
-        {hotels && <TourHotels tour={response.tour} />}
+        <TourBenfits tour={tour} />
+        {tour_hotels && <TourHotels tour={tour} />}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Tour;
+export default Tour

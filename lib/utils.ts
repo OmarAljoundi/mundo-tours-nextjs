@@ -1,11 +1,15 @@
 import { Order } from "@/interface/Search";
 import { ITourType } from "@/interface/Tour";
+import { Tour } from "@/types/custom";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
  
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+export type FunctionKeys<T> = {
+  [K in keyof T]: T[K] extends (...args: any[]) => any ? K : never;
+}[keyof T];
 
 export const europeanCountries = [
   { label: "النمسا", countryCode: "AT" },
@@ -87,22 +91,22 @@ export const daysFilter = [
 export const orderFilter =[
   {
     label:"الأقل سعراَ",
-    value:"Price",
+    value:"price_double",
     order:Order.ASC
   },
    {
     label:"الأعلى سعراً",
-    value:"Price",
+    value:"price_double",
     order:Order.DESC
   },
    {
     label:"الأطول مدة",
-    value:"NumberOfDays",
+    value:"number_of_days",
     order:Order.DESC
   },
     {
     label:"الأقل مدة",
-    value:"NumberOfDays",
+    value:"number_of_days",
     order:Order.ASC
   },
 ]
@@ -126,3 +130,71 @@ export const getGridClass = (size:number) => {
   }
   
 }
+
+type TourSearch = {
+  country?: string;
+  days?: string;
+  type?: string | null;
+  maxprice?: number | null;
+  sortMemebr?: string | null;
+  sortOrder?: Order | null;
+};
+
+export function filterTours(prop:TourSearch, tours:Tour[]) {
+  const {
+    country,
+    days,
+    type,
+    maxprice,
+    sortMemebr,
+    sortOrder,
+  } = prop;
+
+  let filteredTours = [...tours];
+
+  if (country) {
+    const countriesToCheck = country.split(',');
+     filteredTours = tours.filter((tour) => {
+      return countriesToCheck.some((country) => tour.tour_countries?.includes(country.trim()));
+    });
+  }
+
+  if (type) {
+    const typesToCheck = type.split(',');
+     filteredTours = tours.filter((tour) => {
+      return typesToCheck.some((t) => t.trim() === tour.tour_type?.name);
+    });
+  }
+
+  if (days) {
+    const period = daysFilter.filter((x) => days.includes(x.value));
+    var totalDays: any[] = [];
+    period.forEach((item) => {
+      totalDays = totalDays.concat(item.period);
+    });
+    filteredTours = filteredTours.filter(tour => totalDays.includes(tour.number_of_days));
+  }
+
+  if (sortMemebr && sortOrder) {
+    filteredTours.sort((a, b) => {
+      if (sortOrder == Order.ASC) {
+        //@ts-ignore
+        return a[sortMemebr]! - b[sortMemebr]!;
+      } else {
+        //@ts-ignore
+        return b[sortMemebr]! - a[sortMemebr]!;
+      }
+    });
+  } else {
+    filteredTours.sort((a, b) => a.price_double! - b.price_double!);
+  }
+
+  if (maxprice) {
+    filteredTours = filteredTours.filter(tour => tour.price_double! < maxprice);
+  }
+
+
+  return filteredTours;
+}
+
+

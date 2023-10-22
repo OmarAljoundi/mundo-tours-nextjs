@@ -1,74 +1,24 @@
-import {
-  Tabs as TabUi,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import { BaseResponse } from "@/interface/BaseResponse";
-import { ILocation, ILocationTours } from "@/interface/Location";
-import { ILocationResponse } from "@/interface/Response";
-import { getLocationTours } from "@/lib/fetchers";
-import { QueryString } from "@/lib/utils";
-import { useParams, useSearchParams } from "next/navigation";
-import { useQuery } from "react-query";
-import { Separator } from "../ui/separator";
-import { motion } from "framer-motion";
+'use client'
+import { Tabs as TabUi, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useRouter } from 'next/navigation'
+
+import { Separator } from '../ui/separator'
+import { LocationAttributes } from '@/types/custom'
 const Tabs: React.FC<{
-  setSearch: (search: QueryString) => void;
-  search: QueryString;
-  onChange: boolean;
-}> = ({ onChange, search, setSearch }) => {
-  const { data: locations, isLoading } = useQuery("locations");
-
-  const { destination } = useParams();
-  const searchParams = useSearchParams();
-
-  const selectedDest = decodeURIComponent(destination?.toString());
-
-  const getLocationId = (dest: string) => {
-    return (
-      (locations as ILocationResponse)?.locations.find((x) => x.name === dest)
-        ?.id || 0
-    );
-  };
-
-  const { data: loactionsTours, isLoading: isLoadingLocationTours } = useQuery(
-    destination,
-    async () =>
-      await getLocationTours(getLocationId(selectedDest?.replaceAll("-", " "))),
-    {
-      refetchInterval: false,
-      refetchOnWindowFocus: false,
-      enabled: destination != "",
-    }
-  );
-
-  if (
-    !loactionsTours ||
-    loactionsTours.locationTours.length <= 1 ||
-    !destination
-  )
-    return null;
-
+  currentTab: string
+  tabList: LocationAttributes[]
+}> = ({ currentTab, tabList }) => {
+  const route = useRouter()
   return (
     <>
       <Separator className="my-2" />
-      <h1 className="text-center text-7xl font-secondary text-secondary mb-5">
-        أختار نوع البرناج
-      </h1>
+      <h1 className="text-center text-7xl font-secondary text-secondary mb-5">أختار نوع البرناج</h1>
 
-      <TabUi
-        defaultValue={
-          searchParams?.get("tab") ??
-          loactionsTours?.locationTours[0].tab.toString()
-        }
-        className="w-full mb-8 "
-        onValueChange={(e) => setSearch({ ...search, tab: e })}
-      >
+      <TabUi defaultValue={currentTab.replaceAll('-', ' ')} className="w-full mb-8 " onValueChange={(e) => route.push(e.replaceAll(' ', '-'))}>
         <TabsList className="w-full shadow-xl bg-white gap-4 grid grid-cols-2 lg:grid-cols-4 h-full">
-          {loactionsTours?.locationTours?.map((item) => (
+          {tabList?.map((item) => (
             <TabsTrigger
-              value={item.tab.toString()}
+              value={item.title!.toString()}
               key={item.id}
               className="w-full data-[state=active]:bg-secondary data-[state=active]:text-white px-4 "
             >
@@ -78,7 +28,7 @@ const Tabs: React.FC<{
         </TabsList>
       </TabUi>
     </>
-  );
-};
+  )
+}
 
-export default Tabs;
+export default Tabs

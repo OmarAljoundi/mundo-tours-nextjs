@@ -1,11 +1,11 @@
-import { ITour } from "@/interface/Tour";
-import { FunctionComponent } from "react";
-import { Button } from "../ui/button";
-import ContactForm from "../Common/contact-form";
-import { generate } from "@/app/tour/[tourName]/pdf-document";
+import { FunctionComponent } from 'react'
+import { Button } from '../ui/button'
+import ContactForm from '../common/contact-form'
+import { generate } from '@/app/tour/[tourName]/pdf-document'
+import { Tour } from '@/types/custom'
 
 interface TourLinksProps {
-  tour: ITour;
+  tour: Tour
 }
 
 const TourLinks: FunctionComponent<TourLinksProps> = ({ tour }) => {
@@ -15,19 +15,14 @@ const TourLinks: FunctionComponent<TourLinksProps> = ({ tour }) => {
       <div className="border border-dashed my-5"></div>
       <div className=" my-5">
         <div className="flex gap-6">
-          <ContactForm tourId={tour.id} />
-          <Button
-            className="font-primary"
-            size={"sm"}
-            variant={"secondary"}
-            onClick={async () => await generate(tour)}
-          >
+          <ContactForm tourId={tour.id!} />
+          <Button className="font-primary" size={'sm'} variant={'secondary'} onClick={async () => await generate(tour)}>
             تنزيل البرنامج
           </Button>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TourLinks;
+export default TourLinks
