@@ -58,7 +58,7 @@ const Destination = () => {
             >
               <div className="relative rounded-2xl group transition-all duration-500">
                 <div className="listing-card__img">
-                  <Image src={location.image?.url || ''} alt="image" className=" w-full rounded-2xl" width={400} height={307} />
+                  <Image src={location.image?.url || ''} alt="image" className=" w-full rounded-2xl" width={400} height={307} quality={60} />
                 </div>
                 <div
                   className="absolute top-0 left-0 flex flex-col justify-between h-full w-full before:w-full 

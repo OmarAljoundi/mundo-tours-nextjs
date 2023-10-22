@@ -13,7 +13,7 @@ const TourCard: React.FC<{ tour: Tour }> = ({ tour }) => {
             <BlurImage
               width={1000}
               height={400}
-              quality={100}
+              quality={60}
               src={tour.images && tour.images.length > 0 ? tour.images[0] : ''}
               alt="image"
               className="rounded-2xl w-full h-[200px] lg:h-[260px]"
