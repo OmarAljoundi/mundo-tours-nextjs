@@ -13,6 +13,15 @@ import { ThemeProvider } from '@/provider/theme-provider'
 import { ModalProvider } from '@/provider/modal-provider'
 import { Toaster } from 'sonner'
 
+export async function generateMetadata() {
+  const data = await getContentData()
+  return {
+    title: data?.home?.seo?.title,
+    description: data?.home?.seo?.description,
+    keywords: data?.home?.seo?.tags || '',
+  }
+}
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const responseData = await getContentData()
   return (

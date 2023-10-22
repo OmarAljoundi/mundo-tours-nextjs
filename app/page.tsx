@@ -1,3 +1,4 @@
+'use client'
 import SectionProvider from '@/components/shared/section-provider'
 import BestTours from '@/components/Home/best-tours'
 import Category from '@/components/Home/category'
@@ -7,14 +8,6 @@ import HowWorks from '@/components/Home/how-works'
 import Intro from '@/components/Home/intro'
 import { getContentData } from '@/lib/operations'
 
-export async function generateMetadata() {
-  const data = await getContentData()
-  return {
-    title: data?.home?.seo?.title,
-    description: data?.home?.seo?.description,
-    keywords: data?.home?.seo?.tags || '',
-  }
-}
 export default function Home() {
   return (
     <div>
