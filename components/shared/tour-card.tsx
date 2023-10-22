@@ -9,7 +9,7 @@ const TourCard: React.FC<{ tour: Tour }> = ({ tour }) => {
     <div className="bg-white shadow-xl rounded-2xl p-2 ">
       <div className="rounded-2xl relative group">
         <div className="property-card__img relative">
-          <Link href={`/tour/${tour.name?.replaceAll(' ', '-')}`}>
+          <Link href={`/tour/${tour.slug}`}>
             <BlurImage
               width={1000}
               height={400}
