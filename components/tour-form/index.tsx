@@ -14,7 +14,7 @@ import AdditionalServiceForm from './additional-service-form'
 import { http } from '@/service/httpService'
 import { ATTACHMENT_PATH, REVALIDATE_TOUR_LIST } from '@/lib/keys'
 import { File, Save } from 'lucide-react'
-import SeoForm from '../common/seo-form'
+import SeoForm from '../shared/seo-form'
 import HotelForm from './hotel-form'
 import { TourSchema } from '@/types/validations'
 

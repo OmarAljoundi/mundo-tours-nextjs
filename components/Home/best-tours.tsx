@@ -1,6 +1,6 @@
 'use client'
 import { useQuery } from 'react-query'
-import TourCard from '../common/tour-card'
+import TourCard from '../shared/tour-card'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/navigation'

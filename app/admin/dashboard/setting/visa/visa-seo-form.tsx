@@ -1,5 +1,5 @@
 'use client'
-import SeoForm from '@/components/common/seo-form'
+import SeoForm from '@/components/shared/seo-form'
 import { useSetting } from '@/hooks/use-setting'
 import { PushJsonFile } from '@/lib/storage-operations'
 import { Home, Seo, Visa } from '@/types/custom'

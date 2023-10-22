@@ -1,4 +1,4 @@
-import CardAdd from '@/components/common/card-add'
+import CardAdd from '@/components/shared/card-add'
 import { FunctionComponent } from 'react'
 import CardDetails from './card-details'
 import { Separator } from '@/components/ui/separator'

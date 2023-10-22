@@ -1,7 +1,7 @@
 'use client'
 
 import { Button, Input, ModalFooter, Textarea } from '@nextui-org/react'
-import { Modal } from '../common/modal'
+import { Modal } from '../shared/modal'
 import { v4 as uuidv4 } from 'uuid'
 import { TourFeature } from '@/types/custom'
 import { useFormik } from 'formik'

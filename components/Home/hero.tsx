@@ -1,9 +1,9 @@
-"use client";
-import Filter from "../common/filter";
+'use client'
+import Filter from '../shared/filter'
 
 const Hero = () => {
-  const text1 = "أنت اختار";
-  const text2 = "إكتشف العالم";
+  const text1 = 'أنت اختار'
+  const text2 = 'إكتشف العالم'
 
   return (
     <section className="relative bg-[var(--bg-1)] border-t lg:border-t-0">
@@ -16,12 +16,8 @@ const Hero = () => {
         <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed bg-black/60 ">
           <div className="container grid items-center h-full">
             <div className="text-center relative z-30">
-              <h1 className="text-6xl lg:text-7xl  font-secondary text-primary">
-                {text1}
-              </h1>
-              <p className=" mx-auto max-w-[600px] font-primary text-4xl lg:text-7xl text-white mt-4 md:mt-7 mb-6 ">
-                {text2}
-              </p>
+              <h1 className="text-6xl lg:text-7xl  font-secondary text-primary">{text1}</h1>
+              <p className=" mx-auto max-w-[600px] font-primary text-4xl lg:text-7xl text-white mt-4 md:mt-7 mb-6 ">{text2}</p>
               <section className="mt-8">
                 <Filter onChange={false} />
               </section>
@@ -30,7 +26,7 @@ const Hero = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Hero;
+export default Hero

@@ -1,17 +1,8 @@
 export const revalidate = 0
 import BreadCrumb from '@/components/TourListing/bread-crumb'
-import ClientProvider from '@/components/common/client-provider'
-import Filter from '@/components/common/filter'
+import ClientProvider from '@/components/shared/client-provider'
+import Filter from '@/components/shared/filter'
 import { getContentData } from '@/lib/fetchers'
-
-// export async function generateMetadata() {
-//   const data = await getContentData();
-//   return {
-//     title: data?.content?.allTours?.seoTitle,
-//     description: data?.content?.allTours?.seoDescription,
-//     keywords: data?.content?.allTours?.seoTags || "",
-//   };
-// }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

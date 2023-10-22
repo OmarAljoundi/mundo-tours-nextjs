@@ -1,7 +1,9 @@
+export const dynamic = 'force-dynamic'
+
 import './globals.css'
 import { alfont, englishFont, shekari } from './fonts'
 import { cn } from '@/lib/utils'
-import ClientProvider from '@/components/common/client-provider'
+import ClientProvider from '@/components/shared/client-provider'
 import { getContentData } from '@/lib/operations'
 import { Notifications } from '@/components/ui/notification'
 import Script from 'next/script'

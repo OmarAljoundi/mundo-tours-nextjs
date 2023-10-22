@@ -3,7 +3,7 @@ import { useImageModal } from '@/hooks/use-image-modal'
 import UploadNewImages from '../uploader/images/new-images'
 import FromLibrary from '../uploader/images/from-libray'
 import { Button, ModalFooter, Select, Tab, Tabs } from '@nextui-org/react'
-import { Modal } from '../common/modal'
+import { Modal } from '../shared/modal'
 import { useState } from 'react'
 import { DeleteImageFromTour } from '@/lib/storage-operations'
 

@@ -1,6 +1,6 @@
 import { useAttachmentModal } from '@/hooks/use-attachment-modal'
 import { FunctionComponent, useState } from 'react'
-import { Modal } from '../common/modal'
+import { Modal } from '../shared/modal'
 import { Button, ModalFooter, Tab, Tabs } from '@nextui-org/react'
 import UploadNewAttachments from '../uploader/attachments/new-attachments'
 import FromLibrary from '../uploader/attachments/from-libray'

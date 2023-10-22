@@ -1,5 +1,5 @@
 'use client'
-import CardAdd from '@/components/common/card-add'
+import CardAdd from '@/components/shared/card-add'
 import { useSetting } from '@/hooks/use-setting'
 import { FunctionComponent } from 'react'
 import CardDetails from './card-details'

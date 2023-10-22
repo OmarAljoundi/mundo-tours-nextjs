@@ -1,4 +1,4 @@
-import SectionProvider from '@/components/common/section-provider'
+import SectionProvider from '@/components/shared/section-provider'
 import BestTours from '@/components/Home/best-tours'
 import Category from '@/components/Home/category'
 import Destination from '@/components/Home/destination'

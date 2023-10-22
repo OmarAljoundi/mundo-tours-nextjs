@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import { Button } from '../ui/button'
-import ContactForm from '../common/contact-form'
+import ContactForm from '../shared/contact-form'
 import { generate } from '@/app/tour/[tourName]/pdf-document'
 import { Tour } from '@/types/custom'
 

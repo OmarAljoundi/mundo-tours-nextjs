@@ -1,3 +1,4 @@
+export const revalidate = 0
 import { supabaseClientComponent } from '@/lib/supabaseClientComponent'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'

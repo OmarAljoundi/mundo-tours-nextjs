@@ -5,7 +5,7 @@ import { Button as ShcdnButton } from '@/components/ui/button'
 import { Plus, SearchIcon, Trash, X } from 'lucide-react'
 import { Button, Checkbox, CheckboxGroup, Chip, Input, ModalFooter, SelectItem, Tab, Tabs, Textarea, Tooltip, User } from '@nextui-org/react'
 
-import { Modal } from '../common/modal'
+import { Modal } from '../shared/modal'
 import { useModal } from '@/hooks/use-modal'
 import { toast } from 'sonner'
 import { createOffice, getTours, updateOffice } from '@/lib/operations'
@@ -20,7 +20,7 @@ import { ScrollArea } from '../ui/scroll-area'
 import { cn } from '@/lib/utils'
 import { useQuery } from 'react-query'
 import { FunctionComponent } from 'react'
-import SingleImageForm from '../common/single-image-form'
+import SingleImageForm from '../shared/single-image-form'
 
 interface SearchEngineFormProps {
   formik: FormikProps<Office>

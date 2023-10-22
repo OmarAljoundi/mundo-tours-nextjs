@@ -1,5 +1,5 @@
 'use client'
-import TourCard from '../common/tour-card'
+import TourCard from '../shared/tour-card'
 import { useState, useEffect, FC } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useInView } from 'react-intersection-observer'

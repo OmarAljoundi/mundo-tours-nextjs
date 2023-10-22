@@ -1,5 +1,5 @@
 'use client'
-import SeoForm from '@/components/common/seo-form'
+import SeoForm from '@/components/shared/seo-form'
 import { Visa, VisaType } from '@/types/custom'
 import { Button, Divider, Tab, Tabs } from '@nextui-org/react'
 import { useFormik } from 'formik'

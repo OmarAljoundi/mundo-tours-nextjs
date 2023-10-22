@@ -17,7 +17,7 @@ import { useSetting } from '@/hooks/use-setting'
 import { PushJsonFile } from '@/lib/storage-operations'
 import { toast } from 'sonner'
 import ToursSeoForm from '@/app/admin/dashboard/setting/best-tours/tours-seo-form'
-import SeoForm from '@/components/common/seo-form'
+import SeoForm from '@/components/shared/seo-form'
 
 interface BestToursFormProps {}
 

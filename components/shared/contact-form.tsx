@@ -36,7 +36,7 @@ const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
     const result = await submitForm(data)
     if (result.success) {
       toast.success('سنقوم بالتواصل معك قريباَ')
-      //submitEventForm(pathname)
+      submitEventForm(pathname)
     } else {
       toast.error('حدث خطأ ما.. الرجاء المحاولة مجدداً')
     }
