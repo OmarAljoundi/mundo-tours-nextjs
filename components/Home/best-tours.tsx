@@ -12,7 +12,7 @@ const BestTours = () => {
   const content = useSetting((x) => x.setting)
   const { isLoading, data: response } = useQuery('BestTours', async () => await getTours(), {
     select: (data) => {
-      if (content?.best_tours && content?.best_tours?.length > 0) return data?.filter((x) => content.best_tours?.includes(x.id!))
+      if (content?.best_tours?.tours && content?.best_tours?.tours?.length > 0) return data?.filter((x) => content.best_tours?.tours?.includes(x.id!))
       return []
     },
     refetchInterval: false,

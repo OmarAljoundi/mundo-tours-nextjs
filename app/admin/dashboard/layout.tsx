@@ -7,6 +7,7 @@ import { FunctionComponent, ReactNode } from 'react'
 import { Cairo } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { Metadata } from 'next'
+import { ThemeProvider } from '@/provider/theme-provider'
 interface DashboardLayoutProps {
   children: ReactNode
 }
@@ -35,14 +36,16 @@ const DashboardLayout: FunctionComponent<DashboardLayoutProps> = async ({ childr
               maxHeight: 'calc((100vh - 0px) - 0px)',
             }}
           >
-            <ClientProvider types={response.results || []}>
-              <SidebarNav />
-              <SubSidebarNav />
-              <main className="flex flex-col flex-1 w-full overflow-x-hidden bg-scale-200">
-                <Navbar />
-                {children}
-              </main>
-            </ClientProvider>
+            <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+              <ClientProvider types={response.results || []}>
+                <SidebarNav />
+                <SubSidebarNav />
+                <main className="flex flex-col flex-1 w-full overflow-x-hidden bg-scale-200">
+                  <Navbar />
+                  {children}
+                </main>
+              </ClientProvider>
+            </ThemeProvider>
           </div>
         </div>
       </div>

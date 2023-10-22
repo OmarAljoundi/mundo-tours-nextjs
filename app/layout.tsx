@@ -30,13 +30,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           ></iframe>
         </noscript>
         <ReactQueryProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ModalProvider />
-            <Toaster position="top-right" expand={true} richColors />
-            <Notifications position={'topRight'}>
-              <ClientProvider content={responseData}>{children}</ClientProvider>
-            </Notifications>
-          </ThemeProvider>
+          <ModalProvider />
+          <Toaster position="top-right" expand={true} richColors />
+          <Notifications position={'topRight'}>
+            <ClientProvider content={responseData}>{children}</ClientProvider>
+          </Notifications>
         </ReactQueryProvider>
       </body>
     </html>
