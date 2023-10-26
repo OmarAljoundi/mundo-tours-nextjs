@@ -65,5 +65,27 @@ export function getTotalTours(location: Location) {
   location.location_attributes?.map((x) => {
     total += x.location_tours?.length ?? 0
   })
-  return total
+  return getWordTotal(total)
+}
+
+function getWordTotal(total: number) {
+  switch (total) {
+    case 0:
+      return 'لاتوجد رحلات'
+    case 1:
+      return 'رحلة واحدة'
+    case 2:
+      return 'رحلاتين'
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+      return `${total} رحلات`
+    default:
+      return `${total} رحلة`
+  }
 }

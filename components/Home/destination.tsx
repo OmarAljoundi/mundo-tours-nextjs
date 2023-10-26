@@ -1,12 +1,13 @@
 'use client'
-import { cn, getGridClass } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useQuery } from 'react-query'
 import DestinationHomeLoading from '../Loading/destination-home-loading'
 import { getDestination } from '@/lib/operations'
 import { getTotalTours } from '@/lib/helpers'
-
+import { motion } from 'framer-motion'
+import { CONTAINER_DEST_VAR, CONTAINER_VAR, ITEMS_VAR } from '@/lib/animations'
 const Destination = () => {
   const { isLoading, data: response } = useQuery('Locations', async () => await getDestination(), {
     select: (data) => {
@@ -21,7 +22,7 @@ const Destination = () => {
     <div className="container">
       {isLoading ? (
         <div className="mt-8">
-          <DestinationHomeLoading />{' '}
+          <DestinationHomeLoading />
         </div>
       ) : (
         <div className="grid grid-cols-12 gap-4 mt-8">
@@ -56,32 +57,58 @@ const Destination = () => {
                   : 'col-span-12',
               )}
             >
-              <div className="relative rounded-2xl group transition-all duration-500">
+              <motion.div
+                variants={CONTAINER_DEST_VAR}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="relative rounded-2xl group transition-all duration-500"
+              >
                 <div className="listing-card__img">
-                  <Image src={location.image?.url || ''} alt="image" className=" w-full rounded-2xl" width={400} height={307} quality={60} />
+                  <Image src={location.image?.url || ''} alt="image" className=" w-full rounded-2xl" width={1280} height={720} quality={90} />
                 </div>
                 <div
                   className="absolute top-0 left-0 flex flex-col justify-between h-full w-full before:w-full 
                 before:absolute before:h-full before:bottom-0 before:left-0 before:bg-gradient-to-t 
-                 before:from-black/40 before:rounded-2xl  group-hover:before:transition-all group-hover:before:duration-500 group-hover:before:blur-2xl before:to-black/50 group-hover:after:w-full group-hover:after:absolute 
+                 before:from-black/10 before:rounded-2xl  group-hover:before:transition-all group-hover:before:duration-500 group-hover:before:blur-2xl before:to-black/10 group-hover:after:w-full group-hover:after:absolute 
                  "
                 >
                   <div className=" items-end px-5 pb-5 flex flex-wrap w-full gap-4 h-full justify-between z-10">
                     <div>
-                      <div className="flex gap-2 items-center">
-                        <i className="las la-map-marker-alt text-3xl text-[#9C742B]"></i>
-                        <h4 className="text-xl sm:text-base lg:text-2xl text-white font-semibold">{location.name}</h4>
-                      </div>
+                      <motion.figcaption
+                        variants={{ ...ITEMS_VAR }}
+                        transition={{
+                          delay: 0.5,
+                          duration: 0.5,
+                        }}
+                        className="absolute p-2 bottom-2 right-2 max-w-[170px]   left-0  sm:left-5 flex   justify-between  border border-white
+                      bg-white/75 rounded-xl shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm"
+                      >
+                        <div>
+                          <h1 className="text-base  text-secondary font-primary text-ellipsis line-clamp-1 overflow-hidden">{location.name}</h1>
+                        </div>
+                      </motion.figcaption>
                     </div>
-                    <div
-                      className="inline-flex text-xs rounded-2xl px-4 py-2
-                     items-center bg-white/50 group-hover:bg-white/70  justify-center  duration-300 font-primary"
-                    >
-                      {getTotalTours(location)} رحلات
+                    <div>
+                      <motion.figcaption
+                        variants={{ ...ITEMS_VAR }}
+                        transition={{
+                          delay: 0.5,
+                          duration: 0.5,
+                        }}
+                        className="absolute p-2 bottom-2 left-2 max-w-[170px]    sm:left-5 flex   justify-between  border border-white
+                      bg-white/75 rounded-xl shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm"
+                      >
+                        <div>
+                          <h1 className="text-base  text-secondary font-primary text-ellipsis line-clamp-1 overflow-hidden">
+                            {getTotalTours(location)}
+                          </h1>
+                        </div>
+                      </motion.figcaption>
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </Link>
           ))}
         </div>

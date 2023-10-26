@@ -20,6 +20,7 @@ export type Tour = {
   tour_excludes?: TourFeature[] | null
   tour_includes?: TourFeature[] | null
   tour_sections?: TourSection[] | null
+  tour_prices?: TourPrice[] | null
   tour_hotels?: string[] | null
   type_id?: number | null
   tour_type?: TourType | null
@@ -56,6 +57,17 @@ export type TourSection = {
   title: string
   description: string
   image?: string
+}
+
+export type TourPrice = {
+  uuid: string
+  price?: number | null
+  balcony_price?: number | null
+  internal_price?: number | null
+  sea_view_price?: number | null
+  date?: Date | null
+  include_all_month?: boolean
+  one_price?: boolean
 }
 
 export type TourFeature = {

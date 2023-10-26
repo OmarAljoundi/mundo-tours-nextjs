@@ -33,7 +33,7 @@ const TourBenfits: FC<{ tour: Tour }> = ({ tour }) => {
           </li>
         ))}
       </ul>
-      <h6 className="mb-4 font-semibold font-primary"> ما لايشمله البرنامج </h6>
+      <h6 className="mb-4 font-semibold font-primary"> البرنامج لا يشمل التالي </h6>
       <ul className="flex flex-col gap-4 mb-10">
         {tour?.tour_excludes?.map(({ uuid, description, title }) => (
           <li key={uuid}>

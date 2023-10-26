@@ -113,7 +113,7 @@ export const PushAttachments = async (
 
 export const PushJsonFile = async (blob: Blob) => {
   const { data, error } = await supabaseClient.storage.from('mundo_tours').upload(`${SETTING_PATH}/${CONFIG_PATH}`, blob, {
-    cacheControl: '86400',
+    cacheControl: '0',
     upsert: true,
   })
 

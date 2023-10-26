@@ -3,11 +3,11 @@ import { getTours } from '@/lib/operations'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-export async function generateStaticParams({ params }: { params: { tourName: string } }) {
+export async function generateStaticParams() {
   const response = await getTours()
   if (response && response.length > 0) {
     return response.map((tour) => ({
-      slug: `${tour.slug}`,
+      tourName: `${tour.slug}`,
     }))
   }
   return []

@@ -15,30 +15,32 @@ const Tour: FC<{ tour: Tour }> = ({ tour }) => {
     <div>
       <div className="bg-secondary/5 p-4">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-16 justify-center lg:justify-between  items-start ">
-            <div className="px-3 sm:px-4 lg:px-6 py-6 col-span-2  bg-white rounded-2xl border border-neutral-40 mb-6 shadow-card w-full">
-              <h1 className="text-3xl text-center font-primary">الأسعار</h1>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-between mt-5">
-                <div className="shadow-lg p-5 border rounded-lg">
-                  <div className="grid items-center justify-items-center">
-                    <div className="bg-primary p-2 rounded-full">
-                      <BedSingle className=" text-white " />
+          <div className="flex flex-col-reverse lg:grid  lg:grid-cols-3 lg:gap-x-16 justify-center lg:justify-between  items-start ">
+            <div className="flex flex-col-reverse lg:flex-col px-3 sm:px-4 lg:px-6 py-6 col-span-2  bg-white rounded-2xl border border-neutral-40 mb-6 shadow-card w-full">
+              <div className="border-t border-dashed lg:border-none">
+                <h1 className="text-3xl text-center font-primary pt-4 lg:pt-0">الأسعار</h1>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-between mt-5">
+                  <div className="shadow-lg p-5 border rounded-lg">
+                    <div className="grid items-center justify-items-center">
+                      <div className="bg-primary p-2 rounded-full">
+                        <BedSingle className=" text-white " />
+                      </div>
+                      <h4 className="mt-2  text-base sm:text-sm md:text-sm font-primary">الشخض في الغرفة المزدوجة</h4>
+                      <h2 className="text-xl font-bold">{price_double}</h2>
                     </div>
-                    <h4 className="mt-2  text-base sm:text-sm md:text-sm font-primary">الشخض في الغرفة المزدوجة</h4>
-                    <h2 className="text-xl font-bold">{price_double}</h2>
                   </div>
-                </div>
-                <div className="shadow-lg p-5 border rounded-lg">
-                  <div className="grid items-center justify-items-center ">
-                    <div className="bg-primary p-2 rounded-full">
-                      <BedDouble className=" text-white " />
+                  <div className="shadow-lg p-5 border rounded-lg">
+                    <div className="grid items-center justify-items-center ">
+                      <div className="bg-primary p-2 rounded-full">
+                        <BedDouble className=" text-white " />
+                      </div>
+                      <h4 className="mt-2 text-base sm:text-sm md:text-sm font-primary">الشخض في الغرفة المفردة</h4>
+                      <h2 className="text-xl font-bold">{price_single}</h2>
                     </div>
-                    <h4 className="mt-2 text-base sm:text-sm md:text-sm font-primary">الشخض في الغرفة المفردة</h4>
-                    <h2 className="text-xl font-bold">{price_single}</h2>
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 xl:grid-cols-2 xl:gap-x-8  border-t border-dashed mt-4  gap-md-0 divide-y divide-dashed font-primary">
+              <div className="grid  grid-cols-1 xl:grid-cols-2 xl:gap-x-8  lg:border-t lg:border-dashed mt-4  gap-md-0 divide-y divide-dashed font-primary">
                 <div className="py-2 col-span-2">
                   <div className="flex items-center gap-4 ">
                     <div className="bg-primary p-2 rounded-full">

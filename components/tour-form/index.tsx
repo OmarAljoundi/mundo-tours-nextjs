@@ -17,6 +17,7 @@ import { File, Save } from 'lucide-react'
 import SeoForm from '../shared/seo-form'
 import HotelForm from './hotel-form'
 import { TourSchema } from '@/types/validations'
+import AdditionalPricesForm from './additional-prices-form'
 
 interface TourFormProps {
   data?: Tour
@@ -26,6 +27,10 @@ const options = [
   {
     title: 'General Info',
     component: GenralInfoForm,
+  },
+  {
+    title: 'Additional Prices',
+    component: AdditionalPricesForm,
   },
   {
     title: 'Hotels',

@@ -6,7 +6,6 @@ import Destination from '@/components/Home/destination'
 import Hero from '@/components/Home/hero'
 import HowWorks from '@/components/Home/how-works'
 import Intro from '@/components/Home/intro'
-import { getContentData } from '@/lib/operations'
 
 export default function Home() {
   return (

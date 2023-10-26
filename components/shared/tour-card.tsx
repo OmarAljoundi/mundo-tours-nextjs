@@ -37,7 +37,7 @@ const TourCard: React.FC<{ tour: Tour }> = ({ tour }) => {
             ))}
           </div>
         </div>
-        <Link href={`/tour/${tour.slug}`} className="text-base sm:text-xl font-medium text-neutral-700 mb-4">
+        <Link href={`/tour/${tour.slug}`} className="text-base sm:text-xl font-medium text-neutral-700 mb-4 font-primary">
           {tour.name}
         </Link>
       </div>
@@ -48,7 +48,7 @@ const TourCard: React.FC<{ tour: Tour }> = ({ tour }) => {
         <div className="flex flex-wrap justify-between items-center gap-5">
           <span className="text-primary text-xl font-medium">
             {tour?.price_double} ر.ع
-            <span className="text-base text-neutral-700"> / للشخص في الغرفة المزدوجة </span>
+            <span className="text-base text-neutral-700 font-primary"> / للشخص في الغرفة المزدوجة </span>
           </span>
 
           <Link href={`/tour/${tour.slug}`}>

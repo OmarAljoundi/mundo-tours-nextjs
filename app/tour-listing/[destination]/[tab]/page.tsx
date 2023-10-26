@@ -3,19 +3,25 @@ import Tours from '@/components/TourListing/tours'
 import { getDestination, getTours } from '@/lib/operations'
 import { Metadata } from 'next'
 
-export async function generateStaticParams({ params }: { params: { destination: string; tab: string } }) {
+export async function generateStaticParams() {
   const response = await getDestination()
-  const destination = response?.results?.find((x) => x.slug == decodeURIComponent(params.destination))
-  if (destination && destination.location_attributes && destination.location_attributes.length > 0) {
-    return destination?.location_attributes.map((dest) => ({
-      slug: `${dest.title!.replaceAll(' ', '-')!}`,
-    }))
-  }
-  return []
+  var results: { destination: string; tab: string }[] = []
+
+  response?.results?.map((dest) => {
+    if (dest.location_attributes && dest.location_attributes.length > 1) {
+      dest.location_attributes?.map((attr) => {
+        results.push({
+          destination: dest.slug!,
+          tab: attr.title!.replaceAll(' ', '-'),
+        })
+      })
+    }
+  })
+
+  return results
 }
 
 export async function generateMetadata({ params }: { params: { destination: string; tab: string } }): Promise<Metadata> {
-  const tabSlug = params.tab
   const destinationSlug = params.destination
   const response = await getDestination()
   const destination = response?.results?.find((x) => x.slug == decodeURIComponent(destinationSlug))

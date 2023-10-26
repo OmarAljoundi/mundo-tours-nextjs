@@ -17,6 +17,8 @@ import TypeDropdown from './type-dropdown'
 import SortDropdown from './sort-dropdown'
 import { Separator } from '../ui/separator'
 import { getDestination, getTourTypes } from '@/lib/operations'
+import { motion } from 'framer-motion'
+import { CONTAINER_VAR, ITEMS_VAR } from '@/lib/animations'
 
 type FilterOptions = {
   onChange: boolean
@@ -153,33 +155,44 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
 
   return (
     <div>
-      <div className={cn('p-3 sm:p-4 lg:py-6 lg:px-8 bg-white  shadow-lg  grid gap-2  grid-cols-2', onChange ? 'lg:grid-cols-3' : 'lg:grid-cols-5')}>
+      <motion.div
+        variants={CONTAINER_VAR}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className={cn('p-3 sm:p-4 lg:py-6 lg:px-8 bg-white  shadow-lg  grid gap-2  grid-cols-2', onChange ? 'lg:grid-cols-3' : 'lg:grid-cols-5')}
+      >
         {enableTabs && <DestinationDropdown locations={locations ?? []} setSearch={setSearch} search={search} />}
+        <motion.div variants={{ ...ITEMS_VAR }}>
+          <CountryDropdown onChange={onChange} search={search} setSearch={setSearch} />
+        </motion.div>
 
-        <CountryDropdown onChange={onChange} search={search} setSearch={setSearch} />
-        <TypeDropdown types={types?.results ?? []} setSearch={setSearch} search={search} onChange={onChange} />
-
-        <DurationDropdown onChange={onChange} search={search} setSearch={setSearch} />
-        <PriceDropdown onChange={onChange} search={search} setSearch={setSearch} />
-        {enableTabs && <SortDropdown onChange={onChange} search={search} setSearch={setSearch} />}
+        <motion.div variants={{ ...ITEMS_VAR }}>
+          <TypeDropdown types={types?.results ?? []} setSearch={setSearch} search={search} onChange={onChange} />
+        </motion.div>
+        <motion.div variants={{ ...ITEMS_VAR }}>
+          <DurationDropdown onChange={onChange} search={search} setSearch={setSearch} />
+        </motion.div>
+        <motion.div variants={{ ...ITEMS_VAR }}>
+          <PriceDropdown onChange={onChange} search={search} setSearch={setSearch} />
+        </motion.div>
+        {enableTabs && (
+          <motion.div variants={{ ...ITEMS_VAR }}>
+            <SortDropdown onChange={onChange} search={search} setSearch={setSearch} />{' '}
+          </motion.div>
+        )}
 
         {!onChange && (
-          <section className={cn(onChange ? 'col-span-1' : 'col-span-2 lg:col-span-1')}>
+          <motion.section variants={{ ...ITEMS_VAR }} className={cn(onChange ? 'col-span-1' : 'col-span-2 lg:col-span-1')}>
             <Link href={getUrl()}>
               <Button className="w-full" size={'sm'}>
                 <SearchIcon className="text-white" />
                 <span className="mr-2 text-white text-lg">أبحث</span>
               </Button>
             </Link>
-          </section>
+          </motion.section>
         )}
-      </div>
-
-      {/* {enableTabs === true && (
-        <>
-          <Tabs onChange={onChange} search={search} setSearch={setSearch} />
-        </>
-      )} */}
+      </motion.div>
     </div>
   )
 }
