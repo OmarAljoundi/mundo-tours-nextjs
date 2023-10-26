@@ -151,17 +151,17 @@ export function filterTours(prop:TourSearch, tours:Tour[]) {
   } = prop;
 
   let filteredTours = [...tours];
-
+debugger
   if (country) {
     const countriesToCheck = country.split(',');
-     filteredTours = tours.filter((tour) => {
+     filteredTours = filteredTours.filter((tour) => {
       return countriesToCheck.some((country) => tour.tour_countries?.includes(country.trim()));
     });
   }
 
   if (type) {
     const typesToCheck = type.split(',');
-     filteredTours = tours.filter((tour) => {
+     filteredTours = filteredTours.filter((tour) => {
       return typesToCheck.some((t) => t.trim() === tour.tour_type?.name);
     });
   }
