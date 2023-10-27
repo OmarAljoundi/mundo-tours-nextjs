@@ -42,7 +42,7 @@ export default async function DestinationPage({ params, searchParams }: { params
   const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination))
 
   if (currentDest?.location_attributes && currentDest.location_attributes.length >= 2) {
-    redirect(`${params.destination}/${currentDest.location_attributes[0].title}`)
+    redirect(`${params.destination}/${currentDest.location_attributes[0].title!.replaceAll(' ', '-')}`)
   }
 
   currentDest?.location_attributes?.map((x) => {
