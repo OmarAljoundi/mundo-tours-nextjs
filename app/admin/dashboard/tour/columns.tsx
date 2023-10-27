@@ -17,7 +17,7 @@ import { DataTableDateFilter } from '@/components/table/data-table-date-filter'
 import { DataTableFacetedFilter } from '@/components/table/data-table-faceted-filter'
 import { DAYS } from '@/lib/constants'
 import { REVALIDATE_TOUR_LIST } from '@/lib/keys'
-import { AlertCircle, ExternalLink } from 'lucide-react'
+import { AlertCircle, CopyPlus, Delete, Edit, ExternalLink, Trash } from 'lucide-react'
 
 export const columns: ColumnDef<Tour>[] = [
   {
@@ -36,8 +36,8 @@ export const columns: ColumnDef<Tour>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Tour Name" />,
     cell: ({ row }) => {
       return (
-        <div className="w-32 flex items-center justify-between">
-          <span className="max-w-[6rem] truncate">{row.getValue('name')}</span>
+        <div>
+          <span className=" truncate line-clamp-2">{row.getValue('name')}</span>
         </div>
       )
     },
@@ -51,14 +51,14 @@ export const columns: ColumnDef<Tour>[] = [
     cell: ({ row }) => {
       return (
         <div className="w-40 flex items-center justify-start">
-          {row.original.start_day?.slice(0, 2)?.map((item) => (
+          {row.original.start_day?.slice(0, 1)?.map((item) => (
             <Chip className="px-2 rounded-none" variant={'dot'} color="primary" key={item}>
               {item}
             </Chip>
           ))}
           {row.original.start_day && row.original.start_day?.length > 2 && (
             <Chip className="px-2 rounded-none" variant={'dot'} color="danger">
-              + {row.original.start_day.length - 2}
+              + {row.original.start_day.length - 1}
             </Chip>
           )}
         </div>
@@ -77,7 +77,7 @@ export const columns: ColumnDef<Tour>[] = [
     cell: ({ row }) => {
       return (
         <div className="w-32 flex items-center justify-between">
-          <span className="max-w-[6rem] truncate">{row.getValue('price')}</span>
+          <span className="max-w-[6rem] truncate">{row.getValue('price_double')}</span>
         </div>
       )
     },
@@ -211,10 +211,18 @@ export const columns: ColumnDef<Tour>[] = [
             label: 'Edit',
             link: `/admin/dashboard/tour/edit/${row.original.id}`,
             type: 'Link',
+            icon: Edit,
+          },
+          {
+            label: 'Dublicate',
+            link: `/admin/dashboard/tour/dublicate/${row.original.id}`,
+            type: 'Link',
+            icon: CopyPlus,
           },
           {
             label: 'Delete',
             type: 'Promise',
+            icon: Trash,
             action: async () => {
               const { data, error } = await supabaseClient.from('tour').delete().eq('id', row.original.id!)
               if (error) {

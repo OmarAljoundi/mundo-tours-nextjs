@@ -14,6 +14,7 @@ import { DataTableFacetedFilter } from '@/components/table/data-table-faceted-fi
 import { CUSTOMER_STATUS } from '@/lib/constants'
 import { REVALIDATE_CUSTOMER_LIST } from '@/lib/keys'
 import { eCustomerStatus } from '@/interface/Customer'
+import { Check, Trash, X } from 'lucide-react'
 
 export const columns: ColumnDef<Customer>[] = [
   {
@@ -144,10 +145,12 @@ export const columns: ColumnDef<Customer>[] = [
       const markAsResponded = {
         label: 'Completed',
         type: 'Promise' as any,
+        icon: Check,
         action: async () => await updateStatus(eCustomerStatus.Completed),
       }
 
       const markAsNoResponded = {
+        icon: X,
         label: 'No Answer',
         type: 'Promise' as any,
         action: async () => await updateStatus(eCustomerStatus.No_Answer),
@@ -167,6 +170,7 @@ export const columns: ColumnDef<Customer>[] = [
             ...actions,
             {
               label: 'Delete',
+              icon: Trash,
               type: 'Promise',
               action: async () => {
                 const { data, error } = await supabaseClient.from('customer').delete().eq('id', row.original.id!)

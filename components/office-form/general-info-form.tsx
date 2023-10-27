@@ -1,24 +1,10 @@
 'use client'
-import { Office, SocialMedia } from '@/types/custom'
-import { FormikProps, useFormik } from 'formik'
+import { Office } from '@/types/custom'
+import { FormikProps } from 'formik'
 import { Button as ShcdnButton } from '@/components/ui/button'
-import { Plus, SearchIcon, Trash, X } from 'lucide-react'
-import { Button, Checkbox, CheckboxGroup, Chip, Input, ModalFooter, SelectItem, Tab, Tabs, Textarea, Tooltip, User } from '@nextui-org/react'
-
-import { Modal } from '../shared/modal'
-import { useModal } from '@/hooks/use-modal'
-import { toast } from 'sonner'
-import { createOffice, getTours, updateOffice } from '@/lib/operations'
-import { http } from '@/service/httpService'
-import { REVALIDATE_OFFICE_LIST, REVALIDATE_TOUR_LIST } from '@/lib/keys'
-import { useRouter } from 'next/navigation'
+import { X } from 'lucide-react'
+import { Input, SelectItem } from '@nextui-org/react'
 import CustomSelect from '../next-ui/custom-select'
-import { useState } from 'react'
-import { v4 } from 'uuid'
-import { Separator } from '../ui/separator'
-import { ScrollArea } from '../ui/scroll-area'
-import { cn } from '@/lib/utils'
-import { useQuery } from 'react-query'
 import { FunctionComponent } from 'react'
 import SingleImageForm from '../shared/single-image-form'
 
@@ -27,7 +13,7 @@ interface GeneralInfoProps {
 }
 
 const GeneralInfo: FunctionComponent<GeneralInfoProps> = ({ formik }) => {
-  const { values, dirty, touched, errors, handleBlur, handleChange, handleReset, handleSubmit, resetForm, setFieldValue, setValues } = formik
+  const { values, touched, errors, handleBlur, handleChange, setFieldValue } = formik
 
   return (
     <div className="grid gap-4">
@@ -124,6 +110,22 @@ const GeneralInfo: FunctionComponent<GeneralInfoProps> = ({ formik }) => {
           value={values.primary_font || ''}
         >
           {['font-kufi', 'font-naskh', 'font-sans'].map((item) => (
+            <SelectItem key={item} value={item}>
+              {item}
+            </SelectItem>
+          ))}
+        </CustomSelect>
+
+        <CustomSelect
+          selectionMode="single"
+          placeholder="Select a currency"
+          label="Currency"
+          labelPlacement="outside"
+          name="currency"
+          onChange={handleChange}
+          value={values.currency || ''}
+        >
+          {['SAR', 'OMR'].map((item) => (
             <SelectItem key={item} value={item}>
               {item}
             </SelectItem>

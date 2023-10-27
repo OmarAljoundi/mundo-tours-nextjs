@@ -1,6 +1,6 @@
 'use client'
 import TourCard from '../shared/tour-card'
-import { useState, useEffect, FC } from 'react'
+import { useState, useEffect, FC, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useInView } from 'react-intersection-observer'
 import React from 'react'
@@ -11,7 +11,6 @@ const Tours: FC<{ tours: Tour[] }> = ({ tours }) => {
   const searchParams = useSearchParams()
   const { ref, inView } = useInView()
   const [currentSize, setCurrentSize] = useState(10)
-  const [currentTours, setCurrentTours] = useState([...tours])
 
   useEffect(() => {
     console.log(inView)
@@ -20,19 +19,17 @@ const Tours: FC<{ tours: Tour[] }> = ({ tours }) => {
     }
   }, [inView])
 
-  useEffect(() => {
-    setCurrentTours(
-      filterTours(
-        {
-          country: searchParams?.get('country') as string,
-          days: searchParams?.get('days') as string,
-          type: searchParams?.get('type') as string,
-          sortMemebr: searchParams?.get('sortMemebr'),
-          maxprice: searchParams?.get('maxprice') as any,
-          sortOrder: searchParams?.get('sortOrder') as any,
-        },
-        tours,
-      ),
+  const currentTours = useMemo(() => {
+    return filterTours(
+      {
+        country: searchParams?.get('country') as string,
+        days: searchParams?.get('days') as string,
+        type: searchParams?.get('type') as string,
+        sortMemebr: searchParams?.get('sortMemebr'),
+        maxprice: searchParams?.get('maxprice') as any,
+        sortOrder: searchParams?.get('sortOrder') as any,
+      },
+      tours,
     )
   }, [
     searchParams?.get('country'),

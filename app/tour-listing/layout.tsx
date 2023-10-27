@@ -1,8 +1,6 @@
 export const revalidate = 0
 import BreadCrumb from '@/components/TourListing/bread-crumb'
-import ClientProvider from '@/components/shared/client-provider'
 import Filter from '@/components/shared/filter'
-import { getContentData } from '@/lib/fetchers'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

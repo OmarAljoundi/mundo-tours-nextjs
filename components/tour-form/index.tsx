@@ -63,7 +63,11 @@ const TourForm: FunctionComponent<TourFormProps> = ({ data }) => {
   const router = useRouter()
 
   const handleSubmitData = async (formData: Tour) => {
-    debugger
+    formData.price_double_sa = formData.price_double_sa?.toString().trim() == '' ? null : formData.price_double_sa
+    formData.price_single_sa = formData.price_single_sa?.toString().trim() == '' ? null : formData.price_single_sa
+    formData.price_double = formData.price_double?.toString().trim() == '' ? null : formData.price_double
+    formData.price_single = formData.price_single?.toString().trim() == '' ? null : formData.price_single
+
     if (!formData.slug) {
       formData.slug = formData.name?.trim().replaceAll(' ', '-')
     }
@@ -72,7 +76,8 @@ const TourForm: FunctionComponent<TourFormProps> = ({ data }) => {
       toast.promise(updateTour(formData), {
         loading: 'Loading, Updating your tour...',
         error(error) {
-          return error
+          console.log(':error', error)
+          return 'Error while updating the tour'
         },
         async success(data) {
           await http(`/api/revalidate?tag=${REVALIDATE_TOUR_LIST}`).get()
@@ -84,12 +89,13 @@ const TourForm: FunctionComponent<TourFormProps> = ({ data }) => {
       toast.promise(createTour(formData), {
         loading: 'Loading, Creating your tour...',
         error(error) {
-          return error
+          console.log(':error', error)
+          return 'Error while creating the tour'
         },
-        async success(data) {
+        async success(data2) {
           await http(`/api/revalidate?tag=${REVALIDATE_TOUR_LIST}`).get()
           router.refresh()
-          router.push(`/admin/dashboard/tour/edit/${data.id}`)
+          router.push(`/admin/dashboard/tour/edit/${data2.id}`)
           return 'Tour created successfully'
         },
       })

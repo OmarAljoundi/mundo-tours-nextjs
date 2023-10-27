@@ -1,93 +1,86 @@
-"use client";
+'use client'
 
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { Row } from "@tanstack/react-table";
+import { DotsHorizontalIcon } from '@radix-ui/react-icons'
+import { Row } from '@tanstack/react-table'
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import Link from "next/link";
-import { ModalProps, useModal } from "@/hooks/use-modal";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { FunctionKeys } from "@/lib/utils";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import Link from 'next/link'
+import { ModalProps, useModal } from '@/hooks/use-modal'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { FunctionKeys } from '@/lib/utils'
+import { Button, Tooltip } from '@nextui-org/react'
+import { Edit, LucideIcon, Trash } from 'lucide-react'
 
 interface DateTableActionProps<TData> {
-  row: Row<TData>;
+  row: Row<TData>
   actions: {
-    label: string;
-    action?:
-      | FunctionKeys<ModalProps>
-      | (() => Promise<{ success: boolean; message: string }>);
-    link?: string;
-    type?: "Link" | "Promise" | "Trigger";
-  }[];
+    label: string
+    action?: FunctionKeys<ModalProps> | (() => Promise<{ success: boolean; message: string }>)
+    link?: string
+    type?: 'Link' | 'Promise' | 'Trigger'
+    icon: LucideIcon
+  }[]
 }
 
-export function DataTableAction<TData>({
-  row,
-  actions,
-}: DateTableActionProps<TData>) {
-  const route = useRouter();
-  const modal = useModal();
+export function DataTableAction<TData>({ row, actions }: DateTableActionProps<TData>) {
+  const route = useRouter()
+  const modal = useModal()
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-        >
-          <DotsHorizontalIcon className="h-4 w-4" />
-          <span className="sr-only">Open menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[160px]">
+      <div className="flex flex-auto gap-x-2 ">
         {actions?.map((i) => {
           switch (i.type) {
-            case "Link":
+            case 'Link':
               return (
-                <Link href={i.link!} key={i.label}>
-                  <DropdownMenuItem>{i.label}</DropdownMenuItem>
-                </Link>
-              );
-            case "Promise":
+                <Tooltip content={i.label}>
+                  <Button size="sm" variant="ghost" as={Link} isIconOnly href={i.link!} key={i.label}>
+                    <i.icon className="w-4 h-4" />
+                  </Button>
+                </Tooltip>
+              )
+            case 'Promise':
               return (
-                <DropdownMenuItem
+                <Tooltip content={i.label}>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    key={i.label}
+                    isIconOnly
+                    onPress={async () => {
+                      //@ts-ignore
+                      toast.promise(i.action()!, {
+                        error(error) {
+                          return error
+                        },
+                        loading: 'in progress..',
+                        success(data) {
+                          route.refresh()
+                          return (data as any).message!
+                        },
+                      })
+                    }}
+                  >
+                    <i.icon className="w-4 h-4" />
+                  </Button>
+                </Tooltip>
+              )
+            case 'Trigger':
+              return (
+                <Button
                   key={i.label}
-                  onClick={async () => {
-                    //@ts-ignore
-                    toast.promise(i.action()!, {
-                      error(error) {
-                        return error;
-                      },
-                      loading: "in progress..",
-                      success(data) {
-                        route.refresh();
-                        return (data as any).message!;
-                      },
-                    });
-                  }}
-                >
-                  {i.label}
-                </DropdownMenuItem>
-              );
-            case "Trigger":
-              return (
-                <DropdownMenuItem
-                  key={i.label}
+                  size="sm"
+                  variant="ghost"
+                  isIconOnly
                   //@ts-ignore
                   onClick={() => modal[i.action as string](row.original)}
                 >
-                  {i.label}
-                </DropdownMenuItem>
-              );
+                  <i.icon className="w-4 h-4" />
+                </Button>
+              )
           }
         })}
-      </DropdownMenuContent>
+      </div>
     </DropdownMenu>
-  );
+  )
 }

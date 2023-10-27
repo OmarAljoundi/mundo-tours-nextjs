@@ -14,6 +14,8 @@ export type Tour = {
   number_of_days?: number
   price_double?: number | null
   price_single?: number | null
+  price_double_sa?: number | null
+  price_single_sa?: number | null
   seo?: Seo | null
   start_day?: string[] | null
   tour_countries?: string[] | null
@@ -40,6 +42,7 @@ export type Office = {
   name?: string | null
   primary_color?: string | null
   primary_font?: string | null
+  currency?: string | null
   secondary_color?: string | null
   seo?: Seo | null
   slug?: string | null

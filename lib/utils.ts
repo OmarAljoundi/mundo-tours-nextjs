@@ -71,13 +71,12 @@ export type QueryString = {
   sortMemebr?:string
   sortOrder?:number
 }
-export const queryString:QueryString = {
+export const queryString : QueryString = {
   country:[],
   days:[],
   maxprice:null,
   location:null,
   type:[],
-  
   tab:null
 
 }
@@ -151,7 +150,6 @@ export function filterTours(prop:TourSearch, tours:Tour[]) {
   } = prop;
 
   let filteredTours = [...tours];
-debugger
   if (country) {
     const countriesToCheck = country.split(',');
      filteredTours = filteredTours.filter((tour) => {
@@ -175,6 +173,10 @@ debugger
     filteredTours = filteredTours.filter(tour => totalDays.includes(tour.number_of_days));
   }
 
+
+  if (maxprice) {
+    filteredTours = filteredTours.filter(tour => tour.price_double! < maxprice);
+  }
   if (sortMemebr && sortOrder) {
     filteredTours.sort((a, b) => {
       if (sortOrder == Order.ASC) {
@@ -188,11 +190,6 @@ debugger
   } else {
     filteredTours.sort((a, b) => a.price_double! - b.price_double!);
   }
-
-  if (maxprice) {
-    filteredTours = filteredTours.filter(tour => tour.price_double! < maxprice);
-  }
-
 
   return filteredTours;
 }

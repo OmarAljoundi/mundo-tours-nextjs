@@ -66,7 +66,7 @@ const IncludeForm: FunctionComponent<IncludeFormProps> = ({ formik }) => {
     )
   }
   return (
-    <div className="grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8  mt-4 gap-x-4 gap-y-6">
+    <div className="grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8  mt-4 gap-x-4 gap-y-6">
       <Card className="w-full max-h-64 h-64">
         <CardBody className="px-3 py-0 text-small text-default-400 flex items-center justify-center min-h-[160px] h-40">
           <Button

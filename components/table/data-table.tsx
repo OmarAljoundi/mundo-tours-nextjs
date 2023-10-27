@@ -23,6 +23,7 @@ import { DataTableToolbar } from './data-table-toolbar'
 import { Filters, useFilterModal } from '@/hooks/use-filter-modal'
 import { useModal } from '@/hooks/use-modal'
 import { SelectOptionsProps, useSelectOptionsModal } from '@/hooks/use-select-options-modal'
+import { cn } from '@/lib/utils'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -79,7 +80,7 @@ export function DataTable<TData, TValue>({ columns, data, create_link, filters, 
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className={cn(header.id == 'actions' ? 'sticky right-0 bg-white  z-50 shadow-card ' : '')}>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   )
@@ -89,9 +90,11 @@ export function DataTable<TData, TValue>({ columns, data, create_link, filters, 
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+              <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className="group">
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                  <TableCell className={cn(cell.column.id == 'actions' ? 'sticky right-0 bg-white shadow-card z-50 ' : '')} key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
                 ))}
               </TableRow>
             ))}

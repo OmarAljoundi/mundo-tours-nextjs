@@ -1,7 +1,7 @@
 'use client'
 import { useQuery } from 'react-query'
-import { useEffect, useState, FC } from 'react'
-import { QueryString, cn, daysFilter } from '@/lib/utils'
+import { useEffect, useState, FC, useCallback, useLayoutEffect } from 'react'
+import { QueryString, cn, queryString } from '@/lib/utils'
 import qs from 'query-string'
 import Link from 'next/link'
 import { SearchIcon } from 'lucide-react'
@@ -11,11 +11,9 @@ import DurationDropdown from './duration-dropdown'
 import DestinationDropdown from './destination-dropdown'
 import PriceDropdown from './price-dropdown'
 import SearchFilterLoading from '../Loading/search-filter-loading'
-import Tabs from '../TourListing/tabs'
 import { usePathname, useRouter } from 'next/navigation'
 import TypeDropdown from './type-dropdown'
 import SortDropdown from './sort-dropdown'
-import { Separator } from '../ui/separator'
 import { getDestination, getTourTypes } from '@/lib/operations'
 import { motion } from 'framer-motion'
 import { CONTAINER_VAR, ITEMS_VAR } from '@/lib/animations'
@@ -40,6 +38,7 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
   const [mount, setMount] = useState(false)
 
   useEffect(() => {
+    let localSearch = { ...queryString }
     if (!mount) {
       const query = qs.parseUrl(window.location.href, {
         arrayFormat: 'comma',
@@ -47,83 +46,90 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
       }).query
 
       if (query.days && query.days.length > 0) {
-        setSearch({
-          ...search,
+        localSearch = {
+          ...localSearch,
           days: query.days as string[],
-        })
-      }
-      if (query.country && query.country.length > 0) {
-        setSearch({
-          ...search,
-          country: query.country as string[],
-        })
-      }
-      if (query.tab) {
-        setSearch({
-          ...search,
-          tab: query.tab as string,
-        })
-      }
-      if (query.type) {
-        setSearch({
-          ...search,
-          type: query.type as string[],
-        })
-      }
-      if (query.maxprice) {
-        setSearch({
-          ...search,
-          maxprice: query.maxprice as string,
-        })
-      }
-      if (query.sortMemebr && query.sortOrder) {
-        setSearch({
-          ...search,
-          sortMemebr: query.sortMemebr as string,
-          sortOrder: Number(query.sortOrder),
-        })
+        }
       }
 
+      if (query.country && query.country.length > 0) {
+        localSearch = {
+          ...localSearch,
+          country: query.country as string[],
+        }
+      }
+
+      if (query.tab) {
+        localSearch = {
+          ...localSearch,
+          tab: query.tab as string,
+        }
+      }
+
+      if (query.type) {
+        localSearch = {
+          ...localSearch,
+          type: query.type as string[],
+        }
+      }
+
+      if (query.maxprice) {
+        localSearch = {
+          ...localSearch,
+          maxprice: query.maxprice as string,
+        }
+      }
+
+      if (query.sortMemebr && query.sortOrder) {
+        localSearch = {
+          ...localSearch,
+          sortMemebr: query.sortMemebr as string,
+          sortOrder: Number(query.sortOrder),
+        }
+      }
+      setSearch(localSearch)
       setMount(true)
     }
   }, [mount])
 
-  useEffect(() => {
-    if (mount) {
-      const query = {
-        ...qs.parseUrl(window.location.href, {
-          arrayFormat: 'comma',
-          decode: true,
-        }).query,
-        days: search?.days,
-        country: search?.country,
-        tab: search?.tab,
-        type: search?.type,
-        maxprice: search?.maxprice,
-        sortMemebr: search?.sortMemebr,
-        sortOrder: search?.sortOrder,
-      }
-
-      const url = qs.stringifyUrl(
-        {
-          url: pathname,
-          query,
-        },
-        {
-          skipNull: true,
-          skipEmptyString: true,
-          arrayFormat: 'comma',
-          encode: true,
-        },
-      )
-
-      if (onChange) {
-        router.push(url)
-      }
+  const getSearch = useCallback(() => {
+    const query = {
+      ...qs.parseUrl(window.location.href, {
+        arrayFormat: 'comma',
+        decode: true,
+      }).query,
+      days: search?.days,
+      country: search?.country,
+      tab: search?.tab,
+      type: search?.type,
+      maxprice: search?.maxprice,
+      sortMemebr: search?.sortMemebr,
+      sortOrder: search?.sortOrder,
     }
-  }, [search, mount])
 
-  const getUrl = () => {
+    const url = qs.stringifyUrl(
+      {
+        url: pathname,
+        query,
+      },
+      {
+        skipNull: true,
+        skipEmptyString: true,
+        arrayFormat: 'comma',
+        encode: true,
+      },
+    )
+    return url
+  }, [search])
+
+  useEffect(() => {
+    var url = getSearch()
+    if (onChange) {
+      router.push(url)
+    }
+  }, [getSearch])
+
+  const getUrl = useCallback(() => {
     const url = qs.stringifyUrl(
       {
         url: '/tour-listing',
@@ -138,7 +144,7 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
     )
 
     return url
-  }
+  }, [search])
 
   const { data: locations, isLoading } = useQuery('locations', async () => await getDestination(), {
     refetchOnWindowFocus: false,

@@ -44,47 +44,47 @@ const SubSidebarNav: FunctionComponent<SubSidebarNavProps> = () => {
               <div>
                 <div className="my-6 space-y-8">
                   <div className="mx-3">
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       {subItems?.map((item) => (
-                        <li role="menuitem" className="outline-none" key={item.label}>
-                          <a
-                            className={cn(
-                              `cursor-pointer flex space-x-3 items-center outline-none focus-visible:ring-1
+                        <Link href={item.href} key={item.label} className=" block">
+                          <li role="menuitem" className="outline-none">
+                            <a
+                              className={cn(
+                                `cursor-pointer flex space-x-3 items-center outline-none focus-visible:ring-1
                               focus-visible:z-10 group px-3 py-1   
                              font-semibold  z-10 rounded-md `,
-                              pathname === item.href
-                                ? 'bg-slate-300 ring-scale-1200 dark:bg-scale-300 text-scale-900'
-                                : 'hover:bg-slate-100 dark:hover:bg-scale-300',
-                            )}
-                            aria-current="page"
-                          >
-                            <span className="transition truncate text-sm w-full text-scale-1200 font-semibold">
-                              <div className="flex w-full items-center justify-between gap-1">
-                                <div title="Tables" className="flex items-center justify-between gap-2 truncate w-full ">
-                                  <Link href={item.href}>
+                                pathname === item.href
+                                  ? 'bg-slate-300 ring-scale-1200 dark:bg-scale-300 text-scale-900'
+                                  : 'hover:bg-slate-100 dark:hover:bg-scale-300',
+                              )}
+                              aria-current="page"
+                            >
+                              <span className="transition truncate text-sm w-full text-scale-1200 font-semibold">
+                                <div className="flex w-full items-center justify-between gap-1">
+                                  <div title="Tables" className="flex items-center justify-between gap-2 truncate w-full ">
                                     <span className="truncate">{item.label}</span>
-                                  </Link>
-                                  {item.button && (
-                                    <Tooltip key={item.label} placement={'right'} content={item.button.label}>
-                                      {item.button.type == 'trigger' ? (
-                                        <Plus
-                                          onClick={() =>
-                                            //@ts-ignore
-                                            modal[item.button?.action]()
-                                          }
-                                        />
-                                      ) : (
-                                        <Link href={item.button.href!}>
-                                          <Plus />
-                                        </Link>
-                                      )}
-                                    </Tooltip>
-                                  )}
+                                    {item.button && (
+                                      <Tooltip key={item.label} placement={'right'} content={item.button.label}>
+                                        {item.button.type == 'trigger' ? (
+                                          <Plus
+                                            onClick={() =>
+                                              //@ts-ignore
+                                              modal[item.button?.action]()
+                                            }
+                                          />
+                                        ) : (
+                                          <Link href={item.button.href!}>
+                                            <Plus />
+                                          </Link>
+                                        )}
+                                      </Tooltip>
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            </span>
-                          </a>
-                        </li>
+                              </span>
+                            </a>
+                          </li>
+                        </Link>
                       ))}
                     </div>
                   </div>

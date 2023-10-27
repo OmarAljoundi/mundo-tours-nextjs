@@ -16,7 +16,7 @@ import { DataTableSearchInput } from '@/components/table/data-table-search-input
 import { DataTableDateFilter } from '@/components/table/data-table-date-filter'
 import { DataTableFacetedFilter } from '@/components/table/data-table-faceted-filter'
 import { REVALIDATE_OFFICE_LIST } from '@/lib/keys'
-import { ExternalLink } from 'lucide-react'
+import { Edit, ExternalLink, Trash } from 'lucide-react'
 
 export const columns: ColumnDef<Office>[] = [
   {
@@ -140,7 +140,6 @@ export const columns: ColumnDef<Office>[] = [
 
   {
     id: 'actions',
-    enablePinning: true,
     cell: ({ row }) => (
       <DataTableAction
         row={row}
@@ -149,9 +148,11 @@ export const columns: ColumnDef<Office>[] = [
             label: 'Edit',
             action: 'onOpenOffice',
             type: 'Trigger',
+            icon: Edit,
           },
           {
             label: 'Delete',
+            icon: Trash,
             type: 'Promise',
             action: async () => {
               const { data, error } = await supabaseClient.from('office').delete().eq('id', row.original.id!)
