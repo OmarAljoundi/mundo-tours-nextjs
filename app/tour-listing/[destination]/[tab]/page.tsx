@@ -1,3 +1,4 @@
+export const dynamicParams = true
 import Tabs from '@/components/TourListing/tabs'
 import Tours from '@/components/TourListing/tours'
 import { getDestination, getTours } from '@/lib/operations'
