@@ -56,7 +56,7 @@ const DestinationDropdown: FC<{
                   <CommandItem
                     key={option.id}
                     onSelect={() => {
-                      router.push(`/tour-listing/${option.name?.replaceAll(' ', '-')}`)
+                      router.push(`/tour-listing/${option.slug}`)
                     }}
                   >
                     <Check

@@ -28,7 +28,7 @@ const Destination = () => {
         <div className="grid grid-cols-12 gap-4 mt-8">
           {response?.map((location, index) => (
             <Link
-              href={`/tour-listing/${location.name?.replaceAll(' ', '-')}`}
+              href={`/tour-listing/${location.slug}`}
               key={location.id}
               className={cn(
                 'block col-span-12 md:col-span-6',
