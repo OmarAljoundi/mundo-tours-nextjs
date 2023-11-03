@@ -57,7 +57,9 @@ export default async function TabPage({ params }: { params: { destination: strin
   return (
     <>
       <Tabs currentTab={decodeURIComponent(params.tab)} tabList={currentDest?.location_attributes ?? []} />
-      <Tours tours={tours ?? []} />
+      <div className="mt-4 mb-16">
+        <Tours tours={tours ?? []} />
+      </div>
     </>
   )
 }

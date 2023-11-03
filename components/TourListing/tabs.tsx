@@ -16,15 +16,17 @@ const Tabs: React.FC<{
 
       <TabUi defaultValue={currentTab.replaceAll('-', ' ')} className="w-full mb-8 " onValueChange={(e) => route.push(e.replaceAll(' ', '-'))}>
         <TabsList className="w-full shadow-xl bg-white gap-4 grid grid-cols-2 lg:grid-cols-4 h-full">
-          {tabList?.map((item) => (
-            <TabsTrigger
-              value={item.title!.toString()}
-              key={item.id}
-              className="w-full data-[state=active]:bg-secondary data-[state=active]:text-white px-4 "
-            >
-              {item.title}
-            </TabsTrigger>
-          ))}
+          {tabList
+            ?.sort((a, b) => (a.order || 0) - (b.order || 0))
+            .map((item) => (
+              <TabsTrigger
+                value={item.title!.toString()}
+                key={item.id}
+                className="w-full data-[state=active]:border-none border data-[state=active]:bg-secondary data-[state=active]:text-white px-4 "
+              >
+                {item.title}
+              </TabsTrigger>
+            ))}
         </TabsList>
       </TabUi>
     </>

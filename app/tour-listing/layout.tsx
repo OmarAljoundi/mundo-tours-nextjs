@@ -7,8 +7,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <section>
       <div className="container">
         <BreadCrumb />
-        <Filter onChange={true} enableTabs={true} />
-        <div className="mt-4 mb-16">{children}</div>
+        {children}
       </div>
     </section>
   )

@@ -6,7 +6,7 @@ const TourBenfits: FC<{ tour: Tour }> = ({ tour }) => {
     <div className="p-3 sm:p-4 lg:p-6 bg-[var(--bg-1)] rounded-2xl border border-neutral-40 mb-6 lg:mb-10">
       <h4 className="mb-0 text-2xl font-semibold font-primary">مميزات البرنامج</h4>
       <div className="border border-dashed my-5"></div>
-      <h6 className="mb-4 font-semibold font-primary"> ما يشمله البرنامج </h6>
+      <h6 className="mb-4 font-semibold font-primary">البرنامج يشمل التالي</h6>
       <ul className="flex flex-col gap-4 mb-10">
         {tour?.tour_includes?.map((i) => (
           <li key={i.uuid}>

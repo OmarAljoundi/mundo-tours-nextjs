@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: { params: { destination: stri
   const slug = params.destination
   const response = await getDestination()
   const destination = response?.results?.find((x) => x.slug == decodeURIComponent(slug))
+
   if (destination) {
     return {
       title: destination?.seo?.title,
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: { params: { destination: stri
   }
 }
 
-export default async function DestinationPage({ params, searchParams }: { params: { destination: string }; searchParams: any }) {
+export default async function DestinationPage({ params }: { params: { destination: string } }) {
   let tours_ids: number[] = []
   const destination = await getDestination()
   const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination))
@@ -54,5 +55,9 @@ export default async function DestinationPage({ params, searchParams }: { params
 
   const tours = response?.filter((m) => tours_ids.includes(m.id!))
 
-  return <Tours tours={tours ?? []} />
+  return (
+    <div className="mt-4 mb-16">
+      <Tours tours={tours ?? []} />
+    </div>
+  )
 }

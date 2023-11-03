@@ -1,4 +1,5 @@
 import Tours from '@/components/TourListing/tours'
+import Filter from '@/components/shared/filter'
 import { getContentData, getTours } from '@/lib/operations'
 
 export async function generateMetadata() {
@@ -11,7 +12,14 @@ export async function generateMetadata() {
 }
 const Destination = async () => {
   const tours = await getTours()
-  return <Tours tours={tours ?? []} />
+  return (
+    <>
+      <Filter onChange={true} enableTabs={true} />
+      <div className="mt-4 mb-16">
+        <Tours tours={tours ?? []} />
+      </div>
+    </>
+  )
 }
 
 export default Destination
