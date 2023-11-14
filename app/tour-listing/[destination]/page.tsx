@@ -2,14 +2,16 @@ export const dynamicParams = true
 import Tours from '@/components/TourListing/tours'
 import { getDestination, getTours } from '@/lib/operations'
 import { Metadata } from 'next'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 export async function generateStaticParams() {
   const response = await getDestination()
   if (response.success && response.results && response.results.length > 0) {
-    return response.results.map((dest) => ({
-      destination: `${dest.slug}`,
-    }))
+    return response.results
+      .filter((x) => x.is_active)
+      .map((dest) => ({
+        destination: `${dest.slug}`,
+      }))
   }
   return []
 }
@@ -17,7 +19,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { destination: string } }): Promise<Metadata> {
   const slug = params.destination
   const response = await getDestination()
-  const destination = response?.results?.find((x) => x.slug == decodeURIComponent(slug))
+  const destination = response?.results?.find((x) => x.slug == decodeURIComponent(slug) && x.is_active)
 
   if (destination) {
     return {
@@ -41,9 +43,13 @@ export async function generateMetadata({ params }: { params: { destination: stri
 export default async function DestinationPage({ params }: { params: { destination: string } }) {
   let tours_ids: number[] = []
   const destination = await getDestination()
-  const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination))
+  const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination) && x.is_active)
 
-  if (currentDest?.location_attributes && currentDest.location_attributes.length >= 2) {
+  if (!currentDest) {
+    return notFound()
+  }
+
+  if (currentDest.location_attributes && currentDest.location_attributes.length >= 2) {
     redirect(`${params.destination}/${currentDest.location_attributes[0].title!.replaceAll(' ', '-')}`)
   }
 
@@ -51,7 +57,7 @@ export default async function DestinationPage({ params }: { params: { destinatio
     tours_ids = [...tours_ids, ...(x.location_tours?.map((g) => g.tour_id) ?? [])]
   })
 
-  let response = await getTours()
+  let response = (await getTours())?.filter((x) => x.is_active)
 
   const tours = response?.filter((m) => tours_ids.includes(m.id!))
 

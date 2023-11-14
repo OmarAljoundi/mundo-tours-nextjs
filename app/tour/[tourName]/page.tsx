@@ -7,9 +7,11 @@ import { notFound } from 'next/navigation'
 export async function generateStaticParams() {
   const response = await getTours()
   if (response && response.length > 0) {
-    return response.map((tour) => ({
-      tourName: `${tour.slug}`,
-    }))
+    return response
+      .filter((x) => x.is_active)
+      .map((tour) => ({
+        tourName: `${tour.slug}`,
+      }))
   }
   return []
 }
@@ -17,7 +19,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { tourName: string } }): Promise<Metadata> {
   const slug = params.tourName
   const response = await getTours()
-  const tour = response?.find((x) => x.slug == decodeURIComponent(slug))
+  const tour = response?.find((x) => x.slug == decodeURIComponent(slug) && x.is_active)
   if (tour) {
     return {
       title: tour?.seo?.title,
@@ -39,7 +41,9 @@ export async function generateMetadata({ params }: { params: { tourName: string 
 
 export default async function TourPage({ params }: { params: { tourName: string } }) {
   const tours = await getTours()
-  const tour = tours?.find((x) => x.slug == decodeURIComponent(params.tourName))
+  const tour = tours?.find((x) => x.slug == decodeURIComponent(params.tourName) && x.is_active)
+
+  if (!tour) return notFound()
 
   return (
     <>

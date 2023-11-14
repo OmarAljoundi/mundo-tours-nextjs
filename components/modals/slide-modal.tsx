@@ -20,16 +20,15 @@ const SlideModal: FunctionComponent<SlideModalProps> = () => {
   const [uniqueId, setUniqueId] = useState(v4())
   const route = useRouter()
   const handleSubmitFeature = (formData: Slider) => {
-    debugger
     const { onClose, data } = modal
     let newObject = { ...config.setting }
     if (data) {
       newObject = {
-        ...newObject,
         home: {
           ...newObject.home,
           sliders: [...(newObject.home?.sliders?.filter((x) => x.uuid !== data.uuid) ?? []), formData],
         },
+        ...newObject,
       }
     } else {
       newObject = {

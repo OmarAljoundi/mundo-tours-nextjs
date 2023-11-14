@@ -236,51 +236,32 @@ export async function getHotels() {
   }).post(_SQ)
   return data.results
 }
+export async function deleteLocationAttr(location_id: number) {
+  const { data, error } = await supabaseClient.from('location_attributes').delete().eq('location_id', location_id)
+
+  if (error) {
+    throw new Error(`An error occured in operation deleteLocationAttr ${error.message}`)
+  }
+}
 export async function createDestinationAttr(destinationAttr: LocationAttributes) {
   let id: number = 0
 
-  if (destinationAttr.id) {
-    const { error } = await supabaseClient.from('location_tours').delete().eq('location_attr_id', destinationAttr.id)
-    if (error) {
-      console.log('error', error)
-      throw new Error('Error happend while delete destination tours')
-    }
+  const locationAtrrResponse = await supabaseClient
+    .from('location_attributes')
+    .insert({
+      order: Number(destinationAttr.order),
+      seo: destinationAttr.seo,
+      title: destinationAttr.title,
+      location_id: destinationAttr.location_id,
+    })
+    .select('*')
+    .single()
 
-    const locationAtrrResponse = await supabaseClient
-      .from('location_attributes')
-      .update({
-        order: Number(destinationAttr.order),
-        seo: destinationAttr.seo,
-        title: destinationAttr.title,
-        location_id: destinationAttr.location_id,
-      })
-      .eq('id', destinationAttr.id!)
-      .select('*')
-      .single()
-
-    if (locationAtrrResponse.error) {
-      throw new Error('Error happend while updating destination tours ' + locationAtrrResponse.error.message)
-    }
-
-    id = locationAtrrResponse.data.id
-  } else {
-    const locationAtrrResponse = await supabaseClient
-      .from('location_attributes')
-      .insert({
-        order: Number(destinationAttr.order),
-        seo: destinationAttr.seo,
-        title: destinationAttr.title,
-        location_id: destinationAttr.location_id,
-      })
-      .select('*')
-      .single()
-
-    if (locationAtrrResponse.error) {
-      throw new Error('Error happend while creating destination tours ' + locationAtrrResponse.error.message)
-    }
-
-    id = locationAtrrResponse.data.id
+  if (locationAtrrResponse.error) {
+    throw new Error('Error happend while creating destination tours ' + locationAtrrResponse.error.message)
   }
+
+  id = locationAtrrResponse.data.id
 
   if (destinationAttr.location_tours && destinationAttr.location_tours.length > 0) {
     const locationToursResponse = await supabaseClient.from('location_tours').insert(

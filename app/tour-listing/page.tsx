@@ -11,7 +11,7 @@ export async function generateMetadata() {
   }
 }
 const Destination = async () => {
-  const tours = await getTours()
+  const tours = (await getTours())?.filter((x) => x.is_active)
   return (
     <>
       <Filter onChange={true} enableTabs={true} />

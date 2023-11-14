@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { cn } from '@/lib/utils'
 import { Separator } from '../ui/separator'
-import { createDestinationAttr, getTours } from '@/lib/operations'
+import { createDestinationAttr, deleteLocationAttr, getTours } from '@/lib/operations'
 import { toast } from 'sonner'
 import { ScrollArea } from '../ui/scroll-area'
 import { http } from '@/service/httpService'
@@ -32,6 +32,7 @@ const DestinationToursModal = () => {
   const { onClose, isOpenDestinationTours, data } = modal
 
   const handleSubmitForm = async (formData: LocationAttributes[]) => {
+    await deleteLocationAttr(modal?.data?.id)
     const promises = formData.map((element) => {
       return createDestinationAttr(element)
     })
