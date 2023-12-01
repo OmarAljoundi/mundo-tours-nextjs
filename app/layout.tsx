@@ -1,29 +1,17 @@
 export const dynamic = 'force-dynamic'
-
 import './globals.css'
 import { alfont, englishFont, shekari } from './fonts'
 import { cn } from '@/lib/utils'
 import ClientProvider from '@/components/shared/client-provider'
-import { getContentData } from '@/lib/operations'
 import { Notifications } from '@/components/ui/notification'
 import Script from 'next/script'
 import { GTM_ID } from '@/lib/gtm'
 import { ReactQueryProvider } from '@/provider/react-query-provider'
-import { ThemeProvider } from '@/provider/theme-provider'
 import { ModalProvider } from '@/provider/modal-provider'
 import { Toaster } from 'sonner'
-
-export async function generateMetadata() {
-  const data = await getContentData()
-  return {
-    title: data?.home?.seo?.title,
-    description: data?.home?.seo?.description,
-    keywords: data?.home?.seo?.tags || '',
-  }
-}
+import Scroll from '@/provider/scroll-provider'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const responseData = await getContentData()
   return (
     <html lang="ar" dir="rtl">
       <body className={cn(alfont.variable, englishFont.variable, shekari.variable)}>
@@ -39,10 +27,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           ></iframe>
         </noscript>
         <ReactQueryProvider>
+          <Scroll />
           <ModalProvider />
           <Toaster position="top-right" expand={true} richColors />
           <Notifications position={'topRight'}>
-            <ClientProvider content={responseData}>{children}</ClientProvider>
+            <ClientProvider>{children}</ClientProvider>
           </Notifications>
         </ReactQueryProvider>
       </body>

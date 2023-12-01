@@ -8,6 +8,7 @@ import Share from './share'
 import TourLinks from './tour-links'
 import { FC } from 'react'
 import { Tour } from '@/types/custom'
+import TourPricingList from './tour-pricing-list'
 
 const Tour: FC<{ tour: Tour }> = ({ tour }) => {
   const { id, tour_hotels, images, name, number_of_days, seo, start_day, tour_countries, tour_type, price_double, price_single } = tour
@@ -18,7 +19,12 @@ const Tour: FC<{ tour: Tour }> = ({ tour }) => {
           <div className="flex flex-col-reverse lg:grid  lg:grid-cols-3 lg:gap-x-16 justify-center lg:justify-between  items-start ">
             <div className="flex flex-col-reverse lg:flex-col px-3 sm:px-4 lg:px-6 py-6 col-span-2  bg-white rounded-2xl border border-neutral-40 mb-6 shadow-card w-full">
               <div className="border-t border-dashed lg:border-none">
-                <h1 className="text-3xl text-center font-primary pt-4 lg:pt-0">الأسعار</h1>
+                <div className="flex justify-between items-center  pt-4 lg:pt-0">
+                  <h1 className="text-3xl text-center font-primary">الأسعار</h1>
+                  {tour.tour_prices && tour.tour_prices.filter((x) => x.one_price).length > 0 && (
+                    <TourPricingList tourPricing={tour.tour_prices.filter((x) => x.one_price)} />
+                  )}
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-between mt-5">
                   <div className="shadow-lg p-5 border rounded-lg">
                     <div className="grid items-center justify-items-center">

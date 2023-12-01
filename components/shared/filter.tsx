@@ -1,6 +1,6 @@
 'use client'
-import { useQuery } from 'react-query'
-import { useEffect, useState, FC, useCallback, useLayoutEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState, FC, useCallback } from 'react'
 import { QueryString, cn, queryString } from '@/lib/utils'
 import qs from 'query-string'
 import Link from 'next/link'
@@ -17,6 +17,8 @@ import SortDropdown from './sort-dropdown'
 import { getDestination, getTourTypes } from '@/lib/operations'
 import { motion } from 'framer-motion'
 import { CONTAINER_VAR, ITEMS_VAR } from '@/lib/animations'
+import useTourTypes from '@/hooks/react-query/use-tour-types'
+import useLocations from '@/hooks/react-query/use-locations'
 
 type FilterOptions = {
   onChange: boolean
@@ -32,7 +34,8 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
     tab: null,
     type: [],
   })
-
+  const { data: locations } = useLocations()
+  const { data: types } = useTourTypes()
   const pathname = usePathname()
   const router = useRouter()
   const [mount, setMount] = useState(false)
@@ -146,19 +149,6 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
     return url
   }, [search])
 
-  const { data: locations, isLoading } = useQuery('locations', async () => await getDestination(), {
-    refetchOnWindowFocus: false,
-    enabled: true,
-    select: (data) => data.results?.filter((x) => x.is_office == false),
-  })
-
-  const { data: types, isLoading: isTypeLoading } = useQuery('types', async () => await getTourTypes(), {
-    refetchOnWindowFocus: false,
-    enabled: true,
-  })
-
-  if (isLoading || isTypeLoading) return <SearchFilterLoading />
-
   return (
     <div>
       <motion.div
@@ -168,7 +158,9 @@ const Filter: FC<FilterOptions> = ({ onChange, enableTabs = false }) => {
         viewport={{ once: true }}
         className={cn('p-3 sm:p-4 lg:py-6 lg:px-8 bg-white  shadow-lg  grid gap-2  grid-cols-2', onChange ? 'lg:grid-cols-3' : 'lg:grid-cols-5')}
       >
-        {enableTabs && <DestinationDropdown locations={locations ?? []} setSearch={setSearch} search={search} />}
+        {enableTabs && (
+          <DestinationDropdown locations={locations?.results?.filter((x) => x.is_office == false) ?? []} setSearch={setSearch} search={search} />
+        )}
         <motion.div variants={{ ...ITEMS_VAR }}>
           <CountryDropdown onChange={onChange} search={search} setSearch={setSearch} />
         </motion.div>

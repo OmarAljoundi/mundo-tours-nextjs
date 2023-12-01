@@ -8,14 +8,14 @@ import { useModal } from '@/hooks/use-modal'
 import { useRouter } from 'next/navigation'
 import { Plus, SearchIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { cn } from '@/lib/utils'
 import { Separator } from '../ui/separator'
 import { createDestinationAttr, deleteLocationAttr, getTours } from '@/lib/operations'
 import { toast } from 'sonner'
 import { ScrollArea } from '../ui/scroll-area'
 import { http } from '@/service/httpService'
-import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
+import { REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST } from '@/lib/keys'
 
 const DestinationToursModal = () => {
   const [selected, setSelectedKey] = useState<string>('')
@@ -25,8 +25,9 @@ const DestinationToursModal = () => {
   const modal = useModal()
   const router = useRouter()
 
-  const { data: tours, isLoading } = useQuery('Tours', async () => await getTours(), {
-    refetchInterval: false,
+  const { data: tours, isLoading } = useQuery({
+    queryKey: [REVALIDATE_TOUR_LIST],
+    queryFn: async () => await getTours(),
   })
 
   const { onClose, isOpenDestinationTours, data } = modal

@@ -7,8 +7,9 @@ import BlurImage from '../shared/blur-image'
 import { motion } from 'framer-motion'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import useContent from '@/hooks/react-query/use-content'
 const Hero = () => {
-  const setting = useSetting((x) => x.setting?.home?.sliders ?? [])
+  const { data: setting } = useContent()
   return (
     <div className="relative">
       <Swiper
@@ -25,7 +26,7 @@ const Hero = () => {
         modules={[Navigation, Pagination]}
         className="swiper choice-slider"
       >
-        {setting?.map((item, index) => (
+        {setting?.home?.sliders?.map((item, index) => (
           <SwiperSlide key={item.uuid}>
             <motion.div
               initial="hidden"

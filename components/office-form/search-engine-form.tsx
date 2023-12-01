@@ -18,7 +18,7 @@ import { v4 } from 'uuid'
 import { Separator } from '../ui/separator'
 import { ScrollArea } from '../ui/scroll-area'
 import { cn } from '@/lib/utils'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { FunctionComponent } from 'react'
 import SingleImageForm from '../shared/single-image-form'
 

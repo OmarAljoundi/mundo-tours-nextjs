@@ -6,14 +6,15 @@ import { useInView } from 'react-intersection-observer'
 import React from 'react'
 import { Tour } from '@/types/custom'
 import { filterTours } from '@/lib/utils'
+import useTours from '@/hooks/react-query/use-tours'
 
-const Tours: FC<{ tours: Tour[] }> = ({ tours }) => {
+const Tours: FC<{ tourIds?: number[] }> = ({ tourIds }) => {
   const searchParams = useSearchParams()
   const { ref, inView } = useInView()
   const [currentSize, setCurrentSize] = useState(10)
 
+  const { data: tours, isLoading } = useTours()
   useEffect(() => {
-    console.log(inView)
     if (inView) {
       setCurrentSize(currentSize + 10)
     }
@@ -29,7 +30,7 @@ const Tours: FC<{ tours: Tour[] }> = ({ tours }) => {
         maxprice: searchParams?.get('maxprice') as any,
         sortOrder: searchParams?.get('sortOrder') as any,
       },
-      tours,
+      tours || [],
     )
   }, [
     searchParams?.get('country'),
@@ -40,14 +41,18 @@ const Tours: FC<{ tours: Tour[] }> = ({ tours }) => {
     searchParams?.get('maxprice'),
     searchParams?.get('sortMemebr'),
     searchParams?.get('sortOrder'),
+    isLoading,
   ])
 
+  const getData = () => (tourIds ? currentTours?.filter((m) => tourIds.includes(m.id!) && m.is_active) : currentTours?.filter((x) => x.is_active))
   return (
-    <div>
+    <div className="mt-4 mb-16">
       <div className="grid grid-cols-12 gap-x-2 gap-y-4 lg:gap-8">
-        {currentTours?.slice(0, currentSize).map((tour) => (
-          <TourContent ref={ref} key={tour.id} {...tour} />
-        ))}
+        {getData()
+          ?.slice(0, currentSize)
+          .map((tour) => (
+            <TourContent ref={ref} key={tour.id} {...tour} />
+          ))}
       </div>
     </div>
   )

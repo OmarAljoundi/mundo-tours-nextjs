@@ -9,7 +9,7 @@ import { REVALIDATE_TOUR_LIST } from '@/lib/keys'
 import { useEffect, useState } from 'react'
 
 import { cn } from '@/lib/utils'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { FunctionComponent } from 'react'
 import { Separator } from '@/components/ui/separator'
 import { ScrollArea } from '@/components/ui/scroll-area'

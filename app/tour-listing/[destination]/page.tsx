@@ -1,9 +1,32 @@
 export const dynamicParams = true
 import Tours from '@/components/TourListing/tours'
-import { getDestination, getTours } from '@/lib/operations'
+import { REVALIDATE_CONTENT_DATA, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST, REVALIDATE_TOUR_TYPE } from '@/lib/keys'
+import { getContentData, getDestination, getTourTypes, getTours } from '@/lib/operations'
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
 import { Metadata } from 'next'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 
+export async function generateMetadata({ params }: { params: { destination: string } }): Promise<Metadata> {
+  const response = (await getDestination())?.results?.find((x) => x.slug == decodeURIComponent(params.destination) && x.is_active)
+  if (!response) {
+    return {
+      title: 'No destination found',
+    }
+  }
+
+  const { description, tags, title } = response.seo || { title: '', description: '', tags: '' }
+  return {
+    title: title,
+    description: description,
+    openGraph: {
+      title: title,
+      description: description,
+      type: 'website',
+      siteName: 'Mundo Tours',
+    },
+    keywords: tags,
+  }
+}
 export async function generateStaticParams() {
   const response = await getDestination()
   if (response.success && response.results && response.results.length > 0) {
@@ -16,54 +39,39 @@ export async function generateStaticParams() {
   return []
 }
 
-export async function generateMetadata({ params }: { params: { destination: string } }): Promise<Metadata> {
-  const slug = params.destination
-  const response = await getDestination()
-  const destination = response?.results?.find((x) => x.slug == decodeURIComponent(slug) && x.is_active)
-
-  if (destination) {
-    return {
-      title: destination?.seo?.title,
-      description: destination?.seo?.description,
-      openGraph: {
-        title: destination?.seo?.title || '',
-        description: destination?.seo?.description || '',
-        type: 'website',
-        images: [destination.image ?? ''],
-        siteName: 'Mundo Tours',
-      },
-      keywords: destination.seo?.tags || '',
-    }
-  }
-  return {
-    title: 'Error - Destination not found ',
-  }
-}
-
 export default async function DestinationPage({ params }: { params: { destination: string } }) {
   let tours_ids: number[] = []
   const destination = await getDestination()
   const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination) && x.is_active)
 
-  if (!currentDest) {
-    return notFound()
-  }
-
-  if (currentDest.location_attributes && currentDest.location_attributes.length >= 2) {
-    redirect(`${params.destination}/${currentDest.location_attributes[0].title!.replaceAll(' ', '-')}`)
-  }
-
+  if (!currentDest) return notFound()
   currentDest?.location_attributes?.map((x) => {
     tours_ids = [...tours_ids, ...(x.location_tours?.map((g) => g.tour_id) ?? [])]
   })
 
-  let response = (await getTours())?.filter((x) => x.is_active)
-
-  const tours = response?.filter((m) => tours_ids.includes(m.id!))
+  const query = new QueryClient()
+  await Promise.allSettled([
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_LOCATION_LIST],
+      queryFn: getDestination,
+    }),
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_TOUR_LIST],
+      queryFn: getTours,
+    }),
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_TOUR_TYPE],
+      queryFn: getTourTypes,
+    }),
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_CONTENT_DATA],
+      queryFn: getContentData,
+    }),
+  ])
 
   return (
-    <div className="mt-4 mb-16">
-      <Tours tours={tours ?? []} />
-    </div>
+    <HydrationBoundary state={dehydrate(query)}>
+      <Tours tourIds={tours_ids} />
+    </HydrationBoundary>
   )
 }
