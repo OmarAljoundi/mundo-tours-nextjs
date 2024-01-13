@@ -16,6 +16,7 @@ import { toast } from 'sonner'
 import { ScrollArea } from '../ui/scroll-area'
 import { http } from '@/service/httpService'
 import { REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST } from '@/lib/keys'
+import useTours from '@/hooks/react-query/use-tours'
 
 const DestinationToursModal = () => {
   const [selected, setSelectedKey] = useState<string>('')
@@ -25,10 +26,7 @@ const DestinationToursModal = () => {
   const modal = useModal()
   const router = useRouter()
 
-  const { data: tours, isLoading } = useQuery({
-    queryKey: [REVALIDATE_TOUR_LIST],
-    queryFn: async () => await getTours(),
-  })
+  const { data: tours, isLoading } = useTours()
 
   const { onClose, isOpenDestinationTours, data } = modal
 

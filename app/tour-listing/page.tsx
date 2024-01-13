@@ -1,11 +1,9 @@
 import Tours from '@/components/TourListing/tours'
 import Filter from '@/components/shared/filter'
-import { REVALIDATE_TOUR_LIST } from '@/lib/keys'
-import { getContentData, getTours } from '@/lib/operations'
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
+import { getContentDataAction } from '@/lib/server-actions'
 
 export async function generateMetadata() {
-  const data = await getContentData()
+  const data = await getContentDataAction()
   return {
     title: data?.best_tours?.seo?.title,
     description: data?.best_tours?.seo?.description,
@@ -13,16 +11,11 @@ export async function generateMetadata() {
   }
 }
 const Destination = async () => {
-  const query = new QueryClient()
-  await query.prefetchQuery({
-    queryKey: [REVALIDATE_TOUR_LIST],
-    queryFn: getTours,
-  })
   return (
-    <HydrationBoundary state={dehydrate(query)}>
+    <div>
       <Filter onChange={true} enableTabs={true} />
       <Tours />
-    </HydrationBoundary>
+    </div>
   )
 }
 

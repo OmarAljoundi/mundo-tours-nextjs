@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
 import { FunctionComponent } from 'react'
 import SingleImageForm from '../shared/single-image-form'
+import useTours from '@/hooks/react-query/use-tours'
 
 interface BestToursFormProps {
   formik: FormikProps<Office>
@@ -46,8 +47,7 @@ const BestToursForm: FunctionComponent<BestToursFormProps> = ({ formik }) => {
       best_tours: [...(values.best_tours ?? []), ...groupSelected.map((x) => Number(x))],
     })
   }
-
-  const { data: tours } = useQuery([REVALIDATE_TOUR_LIST], async () => await getTours(), { cacheTime: 10000, refetchInterval: false })
+  const { data: tours } = useTours()
 
   return (
     <div className="w-full border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100 col-span-7">

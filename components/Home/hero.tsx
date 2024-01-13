@@ -8,8 +8,16 @@ import { motion } from 'framer-motion'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import useContent from '@/hooks/react-query/use-content'
+import { Skeleton } from '../ui/skeleton'
 const Hero = () => {
-  const { data: setting } = useContent()
+  const { data: setting, isLoading } = useContent()
+
+  if (isLoading)
+    return (
+      <div className="relative">
+        <Skeleton className="w-full h-[400px]" />
+      </div>
+    )
   return (
     <div className="relative">
       <Swiper
@@ -50,7 +58,7 @@ const Hero = () => {
                   alt="Hero Image"
                   quality={50}
                   fill
-                  fetchPriority={index == 0 ? 'high' : 'auto'}
+                  priority={index == 0 ? true : false}
                   loading={index == 0 ? 'eager' : 'lazy'}
                   className="bg-overlay mx-auto max-w-full object-cover object-right-top md:object-center"
                 />

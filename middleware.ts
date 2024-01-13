@@ -9,11 +9,11 @@ export const config = {
 
 export default async function middleware(req: NextRequest) {
   const res = NextResponse.next()
-  const supabase = createMiddlewareClient<Database>({ req, res })
 
   const isDashboard = req.nextUrl.pathname.includes('dashboard')
 
   if (isDashboard) {
+    const supabase = createMiddlewareClient<Database>({ req, res })
     const response = await supabase.auth.getSession()
     if (response.data.session == null) {
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL!}/admin/login`)

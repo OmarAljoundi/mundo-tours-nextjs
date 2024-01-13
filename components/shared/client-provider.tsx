@@ -6,6 +6,7 @@ import Header from '../Layout/header'
 import Footer from '../Layout/footer'
 import { Setting } from '@/types/custom'
 import { useSetting } from '@/hooks/use-setting'
+import { getUserCountry } from '@/lib/actions'
 
 const ClientProvider: FC<{ children: React.ReactNode; content?: Setting }> = ({ children, content }) => {
   const path = usePathname()

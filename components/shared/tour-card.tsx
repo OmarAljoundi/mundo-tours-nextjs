@@ -1,10 +1,12 @@
-import { ITour } from '@/interface/Tour'
+'use client'
 import Link from 'next/link'
 import { Button } from '../ui/button'
 import BlurImage from './blur-image'
 import { Tour } from '@/types/custom'
+import useCountry from '@/hooks/react-query/use-country'
 
 const TourCard: React.FC<{ tour: Tour }> = ({ tour }) => {
+  const { data } = useCountry()
   return (
     <div className="bg-white shadow-xl rounded-2xl p-2 ">
       <div className="rounded-2xl relative group">
@@ -47,7 +49,7 @@ const TourCard: React.FC<{ tour: Tour }> = ({ tour }) => {
       <div className="px-2 sm:px-5 pb-5 pt-3">
         <div className="flex flex-wrap justify-between items-center gap-5">
           <span className="text-primary text-xl font-medium">
-            {tour?.price_double} ر.ع
+            {data == 'JO' ? `${tour?.price_double} ر.ع` : `${tour?.price_double_sa} ر.س`}
             <span className="text-base text-neutral-700 font-primary"> / للشخص في الغرفة المزدوجة </span>
           </span>
 

@@ -9,11 +9,11 @@ import { filterTours } from '@/lib/utils'
 import useTours from '@/hooks/react-query/use-tours'
 
 const Tours: FC<{ tourIds?: number[] }> = ({ tourIds }) => {
+  const { data: tours, isLoading } = useTours()
   const searchParams = useSearchParams()
   const { ref, inView } = useInView()
   const [currentSize, setCurrentSize] = useState(10)
 
-  const { data: tours, isLoading } = useTours()
   useEffect(() => {
     if (inView) {
       setCurrentSize(currentSize + 10)

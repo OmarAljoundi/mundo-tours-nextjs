@@ -1,7 +1,7 @@
-"use client";
-import Image from "next/image";
-import { ThemeToggle } from "./theme-toggle";
-import { UserNav } from "./user-nav";
+'use client'
+import Image from 'next/image'
+import { ThemeToggle } from './theme-toggle'
+import { UserNav } from './user-nav'
 
 const Navbar = () => {
   return (
@@ -10,7 +10,8 @@ const Navbar = () => {
         <a className="block" href="/admin/dashboard">
           <Image
             src="/imgs/mundo-logo.png"
-            alt="Supabase"
+            alt="mundo-logo"
+            priority
             width={80}
             height={45}
             className="mx-auto h-[50px] w-full cursor-pointer rounded p-2"
@@ -22,7 +23,7 @@ const Navbar = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

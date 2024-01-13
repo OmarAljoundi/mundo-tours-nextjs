@@ -1,6 +1,5 @@
-import { Order } from "@/interface/Search";
-import { ITourType } from "@/interface/Tour";
 import { Tour } from "@/types/custom";
+import { Order } from "@/types/search";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
  

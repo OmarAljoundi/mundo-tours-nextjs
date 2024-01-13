@@ -12,8 +12,6 @@ import { cn } from '@/lib/utils'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { FC, useState } from 'react'
-import { eCustomerStatus } from '@/interface/Customer'
-import { useNotification } from '../ui/notification'
 import { submitEventForm } from '@/lib/gtm'
 import { usePathname } from 'next/navigation'
 import { toast } from 'sonner'
@@ -24,7 +22,6 @@ const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const [isSubmitting, setSubmitting] = useState(false)
-  const { error, success } = useNotification()
 
   const handleSubmitForm = async (data: Customer) => {
     setSubmitting(true)
@@ -51,7 +48,7 @@ const ContactForm: FC<{ tourId: number }> = ({ tourId }) => {
       contact_method: '',
       tour_id: tourId,
       notes: '',
-      status: eCustomerStatus.Pending,
+      status: 1,
     },
     onSubmit: handleSubmitForm,
     validateOnBlur: true,

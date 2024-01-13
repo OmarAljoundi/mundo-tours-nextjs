@@ -18,6 +18,7 @@ import { PushJsonFile } from '@/lib/storage-operations'
 import { toast } from 'sonner'
 import ToursSeoForm from '@/app/admin/dashboard/setting/best-tours/tours-seo-form'
 import SeoForm from '@/components/shared/seo-form'
+import useTours from '@/hooks/react-query/use-tours'
 
 interface BestToursFormProps {}
 
@@ -32,7 +33,6 @@ const BestToursForm: FunctionComponent<BestToursFormProps> = () => {
     setGroupSelected([...groupSelected.filter((x) => x !== String(id))])
   }
 
-  console.log('config.setting?', config.setting)
   useEffect(() => {
     setGroupSelected(config.setting?.best_tours?.tours?.map((x) => x.toString()) ?? [])
   }, [config.setting?.best_tours])
@@ -73,7 +73,7 @@ const BestToursForm: FunctionComponent<BestToursFormProps> = () => {
     validateOnChange: true,
   })
 
-  const { data: tours } = useQuery([REVALIDATE_TOUR_LIST], async () => await getTours(), { cacheTime: 10000, refetchInterval: false })
+  const { data: tours } = useTours()
 
   return (
     <form onSubmit={formik.handleSubmit}>

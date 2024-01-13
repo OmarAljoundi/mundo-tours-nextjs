@@ -13,7 +13,6 @@ import { DataTableDateFilter } from '@/components/table/data-table-date-filter'
 import { DataTableFacetedFilter } from '@/components/table/data-table-faceted-filter'
 import { CUSTOMER_STATUS } from '@/lib/constants'
 import { REVALIDATE_CUSTOMER_LIST } from '@/lib/keys'
-import { eCustomerStatus } from '@/interface/Customer'
 import { Check, Trash, X } from 'lucide-react'
 
 export const columns: ColumnDef<Customer>[] = [
@@ -97,15 +96,14 @@ export const columns: ColumnDef<Customer>[] = [
       const status = row.original.status
       return (
         <div className="w-32 flex items-center justify-between">
-          <Chip color={eCustomerStatus.Completed == status ? 'success' : eCustomerStatus.No_Answer == status ? 'warning' : 'primary'}>
-            {status == eCustomerStatus.Completed ? 'Completed!' : status == eCustomerStatus.No_Answer ? 'No answer' : 'Pending'}
+          <Chip color={2 == status ? 'success' : 3 == status ? 'warning' : 'primary'}>
+            {status == 2 ? 'Completed!' : status == 3 ? 'No answer' : 'Pending'}
           </Chip>
         </div>
       )
     },
     filterFn: (row, id, value) => {
-      const status =
-        row.original.status == eCustomerStatus.Completed ? 'Completed' : row.original.status == eCustomerStatus.No_Answer ? 'No_Answer' : 'Pending'
+      const status = row.original.status == 2 ? 'Completed' : row.original.status == 3 ? 'No_Answer' : 'Pending'
       return (value as string[]).includes(status)
     },
   },
@@ -146,19 +144,19 @@ export const columns: ColumnDef<Customer>[] = [
         label: 'Completed',
         type: 'Promise' as any,
         icon: Check,
-        action: async () => await updateStatus(eCustomerStatus.Completed),
+        action: async () => await updateStatus(2),
       }
 
       const markAsNoResponded = {
         icon: X,
         label: 'No Answer',
         type: 'Promise' as any,
-        action: async () => await updateStatus(eCustomerStatus.No_Answer),
+        action: async () => await updateStatus(3),
       }
 
       const actions = []
 
-      if (row.original.status == eCustomerStatus.Pending) {
+      if (row.original.status == 1) {
         actions.push(markAsResponded)
         actions.push(markAsNoResponded)
       }
